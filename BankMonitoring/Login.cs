@@ -28,58 +28,24 @@ namespace Bank
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;
             conn.Open();
-            //SqlCommand command = new SqlCommand($"SELECT EXISTS (SELECT* FROM Login WHERE login = {textBox1.Text} AND password = {textBox2.Text})", conn);
 
-            /*
-
-           private void ValidateUser()
+            //Login
+            using (SqlCommand StrQuer = new SqlCommand("SELECT * FROM Login WHERE login=@userid AND password=@password", conn))
             {
-                string query = "SELECT role from tbl_login WHERE Username = @username and password=@password";
-                string returnValue = "";
-                using (SqlConnection con = new SqlConnection("YourConnectionString"))
+                StrQuer.Parameters.AddWithValue("@userid", textBox1.Text);
+                StrQuer.Parameters.AddWithValue("@password", textBox2.Text);
+                SqlDataReader dr = StrQuer.ExecuteReader();
+
+                if (dr.HasRows) //TODO закрытие формы - показ главной формы
                 {
-                    using (SqlCommand sqlcmd = new SqlCommand(query, con))
-                    {
-                        sqlcmd.Parameters.Add("@username", SqlDbType.VarChar).Value = tbusername.Text;
-                        sqlcmd.Parameters.Add("@password", SqlDbType.VarChar).Value = tbpswlog.Text;
-                        con.Open();
-                        returnValue = (string)sqlcmd.ExecuteScalar();
-                    }
+                    MessageBox.Show($"loginned as {textBox1.Text}!");
                 }
-                //EDIT to avoid NRE 
-                if (String.IsNullOrEmpty(returnValue))
+                else
                 {
-                    MessageBox.Show("Incorrect username or password");
-                    return;
-                }
-                returnValue = returnValue.Trim();
-                if (returnValue == "Admin")
-                {
-                    MessageBox.Show("You are logged in as an Admin");
-                    AdminHome fr1 = new AdminHome();
-                    fr1.Show();
-                    this.Hide();
-                }
-                else if (returnValue == "User")
-                {
-                    MessageBox.Show("You are logged in as a User");
-                    UserHome fr2 = new UserHome();
-                    fr2.Show();
-                    this.Hide();
+                    MessageBox.Show("Неверный логин или пароль");
+                    textBox2.Clear();
                 }
             }
-
-
-
-
-
-
-            */
-            //SELECT EXISTS (SELECT* FROM login_details WHERE username = ? AND password = ?)
-            //search for login in login.login
-            // if found - search for pass in login.pass where login = login
-            // if match -> messagebox.Show($"login password found!")
-
         }
         void press (object sender, KeyPressEventArgs e) //Для проверки ввода
         {
