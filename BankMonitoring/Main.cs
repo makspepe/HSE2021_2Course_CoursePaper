@@ -6,15 +6,15 @@ using System.Data.SqlClient;
 //using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TreeView
+namespace Bank
 {
     public enum CRUD { Create, Read, Update, Delete };
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         private Dictionary<string, string> ChildTable = new Dictionary<string, string>() { {"People","Student" },{ "Student", "card" },{ "card", "card" } };
-        static string appPath = Application.StartupPath.Replace("\\TreeView\\bin\\Debug", ""); //чтобы можно было дб хранить не в bin
-        private string str = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={appPath}\Lab.mdf;Integrated Security=True;";
-        public Form1()
+       // public static string appPath = Application.StartupPath.Replace("\\bin\\Debug", "\\Data");
+        //public string str = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={appPath}\Bank.mdf;Integrated Security=True;";
+        public Main()
         {
             InitializeComponent();
         }
@@ -29,15 +29,17 @@ namespace TreeView
         }
         
         
+
         #region Refresh_Load
         private void refreshButton_Click(object sender, EventArgs e) //кнопка обновить что снизу
         {
             treeView1.Nodes.Clear();
             using (var conn = new SqlConnection())
             {
-                conn.ConnectionString = str;
+                conn.ConnectionString = Program.str;
                 conn.Open();
-                SqlCommand command = new SqlCommand("SELECT [Id], [Name] FROM [People]", conn);
+                //SqlCommand command = new SqlCommand("SELECT [Id], [Name] FROM [People]", conn);
+                /*SqlCommand command = new SqlCommand("SELECT [Id], FROM [Login]", conn);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -49,13 +51,13 @@ namespace TreeView
                         treeView1.Nodes.Add(node);
                         LoadStudents(id, node);
                     }
-                }
+                }*/
             }
 
         }
         private void LoadStudents(int id, TreeNode node) 
         {
-            using(var conn = new SqlConnection(str))
+            using(var conn = new SqlConnection(Program.str))
             {
                 conn.Open();
                 SqlCommand command = new SqlCommand($"SELECT Id, Name FROM Student Where [IdScience]={id}", conn);
@@ -74,7 +76,7 @@ namespace TreeView
         }
         private void Loadcard(int id, TreeNode node)
         {
-            using (var conn = new SqlConnection(str))
+            using (var conn = new SqlConnection(Program.str))
             {
                 conn.Open();
                 SqlCommand command = new SqlCommand($"SELECT Id, Name FROM card Where [StudentId]={id}", conn);
@@ -96,7 +98,7 @@ namespace TreeView
         #region Create
         private void CreateChild(string name)
         {
-            using (var conn = new SqlConnection(str))
+            using (var conn = new SqlConnection(Program.str))
             {
                 conn.Open();
                 string table = ChildTable[treeView1.SelectedNode.Name];
@@ -111,7 +113,7 @@ namespace TreeView
 
         private void Create(string name)
         {
-            using (var conn = new SqlConnection(str))
+            using (var conn = new SqlConnection(Program.str))
             {
                 conn.Open();
                 int parentId;
@@ -162,7 +164,7 @@ namespace TreeView
             if (result == DialogResult.OK)
             {
                 string name = form.NameAtte;
-                using (var conn = new SqlConnection(str))
+                using (var conn = new SqlConnection(Program.str))
                 {
                     conn.Open();
                     int id = int.Parse(treeView1.SelectedNode.Tag.ToString());
@@ -182,7 +184,7 @@ namespace TreeView
         {
             if (treeView1.SelectedNode == null)
                 return;
-            using (SqlConnection conn = new SqlConnection(str))
+            using (SqlConnection conn = new SqlConnection(Program.str))
             {
                 conn.Open();
                 int id = int.Parse(treeView1.SelectedNode.Tag.ToString());

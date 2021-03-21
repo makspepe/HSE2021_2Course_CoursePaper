@@ -5,7 +5,7 @@ using System.Data;
 //using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TreeView
+namespace Bank
 {
     public partial class NameForm : Form //обновляем название
     {

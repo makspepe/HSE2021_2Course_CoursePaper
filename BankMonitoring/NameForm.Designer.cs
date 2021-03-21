@@ -1,5 +1,5 @@
 ﻿
-namespace TreeView
+namespace Bank
 {
     partial class NameForm
     {
