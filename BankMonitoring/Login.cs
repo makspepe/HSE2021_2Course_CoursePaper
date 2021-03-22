@@ -64,12 +64,13 @@ namespace Bank
                         list.Add(new LogPas { slogin = dr.GetString(1), spass = dr.GetString(2) });
                     slogpass = list.ToArray();
                 }
-
+                //TODO нужна привязка к logid в emp, и приветствие как фио от logid
+                //проверка на active 1/0 если не active => сообщение об ошибке return
                 if (!(slogpass.GetLength(0) == 0) && String.Equals(textBox1.Text, slogpass[0].slogin) && String.Equals(textBox2.Text, slogpass[0].spass))
                 {
                     this.Hide();
                     //MessageBox.Show($"loginned as {textBox1.Text}!");
-                    Menu tmp = new Menu();
+                    Меню tmp = new Меню();
                     tmp.Show();
                     return;
                 }

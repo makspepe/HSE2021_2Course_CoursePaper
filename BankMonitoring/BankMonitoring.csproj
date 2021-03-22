@@ -52,6 +52,12 @@
     <Compile Include="Menu.Designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Searchf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Searchf.Designer.cs">
+      <DependentUpon>Searchf.cs</DependentUpon>
+    </Compile>
     <Compile Include="TreeViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Searchf.resx">
+      <DependentUpon>Searchf.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TreeViewForm.resx">
       <DependentUpon>TreeViewForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,6 +115,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Img\search-flat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Img\client.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Img\employee.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,11 +10,18 @@ using System.Windows.Forms;
 
 namespace Bank
 {
-    public partial class Menu : Form
+    public partial class Меню : Form
     {
-        public Menu()
+        public Меню()
         {
             InitializeComponent();
+        }
+
+        private void searchb_Click(object sender, EventArgs e)
+        {
+            Поиск tmp = new Поиск();
+            tmp.Show();
+            return;
         }
     }
 }
