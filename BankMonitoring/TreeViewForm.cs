@@ -9,12 +9,12 @@ using System.Windows.Forms;
 namespace Bank
 {
     public enum CRUD { Create, Read, Update, Delete };
-    public partial class Main : Form
+    public partial class TreeViewForm : Form
     {
         private Dictionary<string, string> ChildTable = new Dictionary<string, string>() { {"People","Student" },{ "Student", "card" },{ "card", "card" } };
        // public static string appPath = Application.StartupPath.Replace("\\bin\\Debug", "\\Data");
         //public string str = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={appPath}\Bank.mdf;Integrated Security=True;";
-        public Main()
+        public TreeViewForm()
         {
             InitializeComponent();
         }

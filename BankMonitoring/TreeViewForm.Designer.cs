@@ -1,7 +1,7 @@
 ﻿
 namespace Bank
 {
-    partial class Main
+    partial class TreeViewForm
     {
         /// <summary>
         /// Required designer variable.
