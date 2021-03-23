@@ -22,8 +22,10 @@ namespace Bank
 
         public class LogPas
         {
-            public string slogin { get; set; }
-            public string spass { get; set; }
+            public int sid { get; set; } //id 
+            public string slogin { get; set; } //логин
+            public string spass { get; set; } //пароль
+            public bool sactive { get; set; } //активный ли аккаунт
         }
 
         public string replace(string s) //все попытки sql injections убираем
@@ -45,42 +47,68 @@ namespace Bank
             conn.ConnectionString = Program.str;
 
             replace(textBox1.Text);
-            
+            replace(textBox2.Text);
 
+            LogPas[] slogpass;
             //Login
-            using (SqlCommand StrQuer = new SqlCommand("SELECT * FROM Login WHERE login=@login AND password=@password", conn))
+            using (SqlCommand StrQuer = new SqlCommand("SELECT * FROM Login WHERE login=@login AND password=@password", conn)) //берем всю запись
             {
                 StrQuer.Parameters.AddWithValue("@login", textBox1.Text);
                 StrQuer.Parameters.AddWithValue("@password", textBox2.Text);
                 conn.Open();
 
-                LogPas[] slogpass;
+                
                 SqlDataReader dr = StrQuer.ExecuteReader();
 
                 using (dr) //для проверки на регистр в логине/пароле
                 {
                     var list = new List<LogPas>();
                     while (dr.Read())
-                        list.Add(new LogPas { slogin = dr.GetString(1), spass = dr.GetString(2) });
+                        list.Add(new LogPas {sid = dr.GetInt32(0), slogin = dr.GetString(1), spass = dr.GetString(2), sactive = dr.GetBoolean(3) });
                     slogpass = list.ToArray();
                 }
-                //TODO нужна привязка к logid в emp, и приветствие как фио от logid
-                //проверка на active 1/0 если не active => сообщение об ошибке return
-                if (!(slogpass.GetLength(0) == 0) && String.Equals(textBox1.Text, slogpass[0].slogin) && String.Equals(textBox2.Text, slogpass[0].spass))
+                
+            }
+            if (!(slogpass.GetLength(0) == 0) && String.Equals(textBox1.Text, slogpass[0].slogin) && String.Equals(textBox2.Text, slogpass[0].spass))
+            {
+                if (!slogpass[0].sactive) //не активен
                 {
-                    this.Hide();
-                    //MessageBox.Show($"loginned as {textBox1.Text}!");
-                    Меню tmp = new Меню();
-                    tmp.Show();
-                    return;
-                }
-                else
-                {
-                    label1.Text = ("Неверное имя пользователя или пароль");
+                    label1.Text = ("Этот аккаунт закрыт");
                     label1.Visible = true;
                     textBox2.Clear();
+                    conn.Close();
+                    return;
                 }
+                //Задаем ФИО и права
+                using (SqlCommand StrQuer = new SqlCommand("SELECT emppas, fam, name, sname, job FROM emp WHERE logid=@logid", conn))
+                {
+                    StrQuer.Parameters.AddWithValue("@logid", slogpass[0].sid);
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                    {
+                        while (dr.Read())
+                        {
+                            Program.emppas = dr.GetString(0);
+                            Program.fam = dr.GetString(1);
+                            Program.name = dr.GetString(2);
+                            Program.sname = dr.GetString(3);
+                            Program.isgovernor = (dr.GetInt32(4) == 1 ? true : false); //управляющий ли?
+                        }
+                    }
+
+                }
+                    this.Hide();
+                //MessageBox.Show($"loginned as {textBox1.Text}!");
+                Меню tmp = new Меню();
+                tmp.Show();
             }
+            else
+            {
+                label1.Text = ("Неверное имя пользователя или пароль");
+                label1.Visible = true;
+                textBox2.Clear();
+            }
+
             conn.Close();
         }
 
