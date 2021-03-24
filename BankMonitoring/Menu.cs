@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Bank
 {
+
     public partial class Меню : Form
     {
         public Меню()
@@ -36,12 +37,35 @@ namespace Bank
             Application.Exit();
         }
 
-        private void Меню_VisibleChanged(object sender, EventArgs e)
+        private void Меню_VisibleChanged(object sender, EventArgs e) //смена имени пользователя
         {
-            label1.Text = $"{Program.fam} {Program.name} {Program.sname}";
+            ФИО.Text = $"{Program.fam} {Program.name} {Program.sname}";
             if (Program.isgovernor)
-                label1.Text = label1.Text + ", Управляющий";
-            //обновление штук после логина
+            {
+                ФИО.Text = ФИО.Text + ", Управляющий";
+                addempb.Visible = true;
+            }
+            else
+            {
+                addempb.Visible = false;
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) //личные данные
+        {
+            Program.curepas = Program.emppas; //чтобы при отмене не зануляло
+            empinfo tmp = new empinfo();
+            tmp.Show();
+            tmp.empdata(Program.emppas);
+            tmp.button2.PerformClick();
+        }
+
+        private void addempb_Click(object sender, EventArgs e) //добавление сотрудника
+        {
+            empinfo tmp = new empinfo();
+            tmp.Show();
+            Program.curepas = null;
+            tmp.button5.PerformClick();
         }
     }
 }
