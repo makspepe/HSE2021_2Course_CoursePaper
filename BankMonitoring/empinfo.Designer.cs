@@ -31,6 +31,7 @@ namespace Bank
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Договор = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Дата = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -49,7 +50,6 @@ namespace Bank
             this.label8 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -73,7 +73,7 @@ namespace Bank
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.Дата = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,6 +97,11 @@ namespace Bank
             this.Договор.HeaderText = "Договор";
             this.Договор.Name = "Договор";
             this.Договор.ReadOnly = true;
+            // 
+            // Дата
+            // 
+            this.Дата.HeaderText = "Дата";
+            this.Дата.Name = "Дата";
             // 
             // button6
             // 
@@ -261,14 +266,6 @@ namespace Bank
             this.label9.Size = new System.Drawing.Size(37, 13);
             this.label9.TabIndex = 55;
             this.label9.Text = "Город";
-            // 
-            // textBox8
-            // 
-            this.textBox8.Location = new System.Drawing.Point(543, 65);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(164, 20);
-            this.textBox8.TabIndex = 54;
             // 
             // label10
             // 
@@ -476,16 +473,22 @@ namespace Bank
             this.comboBox2.Size = new System.Drawing.Size(164, 21);
             this.comboBox2.TabIndex = 78;
             // 
-            // Дата
+            // comboBox3
             // 
-            this.Дата.HeaderText = "Дата";
-            this.Дата.Name = "Дата";
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.Enabled = false;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(543, 65);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(164, 21);
+            this.comboBox3.TabIndex = 79;
             // 
             // empinfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1028, 584);
+            this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.comboBox1);
@@ -507,7 +510,6 @@ namespace Bank
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox8);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.label11);
@@ -559,7 +561,6 @@ namespace Bank
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label11;
@@ -586,5 +587,6 @@ namespace Bank
         private System.Windows.Forms.DataGridViewTextBoxColumn Договор;
         public System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Дата;
+        private System.Windows.Forms.ComboBox comboBox3;
     }
 }

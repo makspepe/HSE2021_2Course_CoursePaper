@@ -17,7 +17,7 @@ namespace Bank
             InitializeComponent();
         }
 
-        public void loadInfo(string contnum)
+        public void loadInfoloan(string contnum)
         {
 
         }

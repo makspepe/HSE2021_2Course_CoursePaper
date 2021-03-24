@@ -29,7 +29,7 @@ namespace Bank
 
         }
 
-        public void loadInfo (string contnum) //загрузка данных по ид договора
+        public void loadinfocard (string contnum) //загрузка данных по ид договора
         {
             Program.curcont = contnum;
             var conn = new SqlConnection();
@@ -138,16 +138,25 @@ namespace Bank
             DialogResult dialogResult = MessageBox.Show($"Удаление договора {Program.curcont}, уверены?", "Внимание", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                //надо удалить из contract //TODO
-                //надо удалить из contcard , вроде можно объединить
-                // where contract.Id = "ид выбранного"
+                var conn = new SqlConnection();
+                conn.ConnectionString = Program.str;
 
+                using (SqlCommand StrQuer = new SqlCommand("BEGIN TRANSACTION " +
+                    $"DELETE FROM contract WHERE Id = '{Program.curcont}'; " +
+                    $"DELETE FROM contcard WHERE contid = '{Program.curcont}';" +
+                    $"COMMIT", conn))
+                {
+                    conn.Open();
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+
+                }
                 ronly();
                 wipe();
                 edit.Enabled = true;
                 create.Enabled = true;
                 save.Visible = false;
                 revert.Visible = false;
+                MessageBox.Show("Удаление завершено");
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -155,6 +164,7 @@ namespace Bank
             }
 
         }
+
         //Редактирование
         private void button1_Click(object sender, EventArgs e)
         {
@@ -162,29 +172,21 @@ namespace Bank
             save.Visible = true;
             revert.Visible = true;
             write();
-            textBox6.ReadOnly = true;
-            textBox7.ReadOnly = true;
-            textBox8.ReadOnly = true;
         }
 
         //сохранение
         private void button3_Click(object sender, EventArgs e)
         {
+            var conn = new SqlConnection();
+            conn.ConnectionString = Program.str;
             if (edit.Enabled == true)  //редакт
             {
-                //проверка номера договора, карты на повторение (кроме себя самого)
-                //проверка на существование паспорта кли, сотруд
-                //проверка кому принадлежит счет, если себе(clientid)/null - добавить
-
-                bool k = true;
-                var conn = new SqlConnection();
-                conn.ConnectionString = Program.str;
-
-
-                //Данные текущего пользователя
-                string emppas = "0", inn = "0", snils = "0", login = "0", password = "0", logid = "-1";
-                using (SqlCommand StrQuer = new SqlCommand($"SELECT emppas, inn, snils, Login.login, Login.password, Login.Id " +
-                    $"FROM emp INNER JOIN Login ON emp.logid = Login.Id WHERE emppas = N'{Program.curepas}'", conn))
+                
+                //Получение ном дог и карты текущ договора
+                string cardid = "-1", conid = "-1";
+                using (SqlCommand StrQuer = new SqlCommand("SELECT Id, contid " +
+                    "FROM contcard " +
+                    $"WHERE contid = {Program.curcont}", conn))
                 {
                     conn.Open();
                     SqlDataReader dr = StrQuer.ExecuteReader();
@@ -192,99 +194,301 @@ namespace Bank
                     using (dr)
                     {
                         while (dr.Read())
-                        {
-                            emppas = dr.GetString(0); //пасс
-                            inn = dr.GetString(1); //инн
-                            snils = dr.GetString(2); //снилс
-                            login = dr.GetString(3); // login
-                            password = dr.GetString(4); //pass
-                            logid = dr.GetInt32(5).ToString();
+                        {  //вставка полей в textbox
+                            cardid = dr.GetInt32(0).ToString(); //ид карты
+                            conid = dr.GetInt32(1).ToString(); //ид договора
                         }
                     }
                     conn.Close();
                 }
-
-                //Проверка данных текущего пользователя с тем, что найдено в дб
-                using (SqlCommand StrQuer = new SqlCommand($"SELECT emppas, inn, snils, Login.login, Login.password " +
-                $"FROM emp INNER JOIN Login ON emp.logid = Login.ID WHERE emppas LIKE '{textBox1.Text}%' OR inn LIKE '{textBox10.Text}%' " +
-                $"OR snils LIKE '{textBox9.Text}%' OR Login.login LIKE '{textBox16.Text}%' OR Login.password LIKE '{textBox14.Text}%'", conn))
+                //проверка текущего номера договора и карты на повторение (кроме себя самого)
+                bool k = true; ;
+                using (SqlCommand StrQuer = new SqlCommand("SELECT contcard.Id, contract.Id " +
+                    "FROM contcard INNER JOIN contract ON contcard.contid = contract.Id " +
+                    $"WHERE contcard.contid = '{textBox1.Text}' " +
+                    $"OR contract.Id = '{textBox2.Text}'", conn))
                 {
                     conn.Open();
                     SqlDataReader dr = StrQuer.ExecuteReader();
 
                     using (dr)
                     {
+                        bool found = false;
                         while (dr.Read())
                         {
-                            string tpas = "0", tinn = "0", tsnils = "0", tlogin = "0", tpassword = "0";
-                            tpas = dr.GetString(0); //пасс
-                            tinn = dr.GetString(1); //инн
-                            tsnils = dr.GetString(2); //снилс
-                            tlogin = dr.GetString(3);
-                            tpassword = dr.GetString(4); //pass
+                            found = true;
+                            string tcardid = "-1", tid = "-1";
+                            tcardid = dr.GetInt32(0).ToString(); //номер карты
+                            tid = dr.GetInt32(1).ToString(); //номер договора
                             //Если нашли старую запись - скип
-                            if (String.Equals(emppas, tpas) && String.Equals(inn, tinn) && String.Equals(snils, tsnils) && (String.Equals(password, tpassword) && String.Equals(login, tlogin)))
+                            if (String.Equals(cardid, tcardid) && String.Equals(conid, tid)) 
                             {
                                 continue;
                             }
-                            if (String.Equals(textBox1.Text, tpas))
+                            if (String.Equals(textBox1.Text, tcardid))
                             {
                                 k = false;
                                 textBox1.Text = null;
                             }
-                            if (String.Equals(textBox10.Text, tinn))
+                            if (String.Equals(textBox2.Text, tid))
                             {
                                 k = false;
-                                textBox10.Text = null;
-                            }
-                            if (String.Equals(textBox9.Text, tsnils))
-                            {
-                                k = false;
-                                textBox9.Text = null;
-                            }
-                            if ((String.Equals(textBox16.Text, tpassword) && String.Equals(textBox14.Text, tlogin)))
-                            {
-                                k = false;
-                                textBox14.Text = null;
-                                textBox16.Text = null;
+                                textBox2.Text = null;
                             }
                         }
                         conn.Close();
                         if (!k)
                         {
-                            MessageBox.Show("Не могут повторяться: паспорт, ИНН, СНИЛС, имя пользователи или пароль");
+                            MessageBox.Show("Не могут повторяться: номера счетов");
+                            return;
+                        }
+                        if (!found)
+                        {
+                            MessageBox.Show("Номера договора карты не существует");
+                            textBox1.Text = null;
+                            textBox2.Text = null;
                             return;
                         }
                     }
 
                 }
-                int citycode = getcitycode(textBox8.Text);
-                string jobcode = ((KeyValuePair<int, string>)comboBox2.SelectedItem).Key.ToString();
-                string actcode = ((KeyValuePair<bool, string>)comboBox1.SelectedItem).Key.ToString();
-
-                if (citycode == -1)
+                k = false;
+                //проверка на существование паспорта сотруд
+                using (SqlCommand StrQuer = new SqlCommand("SELECT emppas FROM emp " +
+                    $"WHERE emppas = '{textBox7.Text}'", conn))
                 {
-                    MessageBox.Show("Город не найден");
-                    return;
+                    conn.Open();
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                    {
+                        string empid = "-1";
+                        while (dr.Read())
+                        {
+                            
+                            empid = dr.GetString(0); //пасп сотруд
+                            //Если нашли запись - существует
+                            if (String.Equals(textBox7.Text, empid))
+                            {
+                                k = true;
+                            }
+
+
+                        }
+                        conn.Close();
+                        if (!k)
+                        {
+                            MessageBox.Show("Сотрудника не существует");
+                            return;
+                        }
+                    }
+
                 }
 
+                //существует ли счет
+                bool t = true; //счет не существует?
+                using (SqlCommand StrQuer = new SqlCommand("SELECT Id, clipas FROM acc " +
+                   $"WHERE Id = '{textBox8.Text}'", conn))
+                {
+                    conn.Open();
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                    {
+                        k = true;
+                        
+                        while (dr.Read())
+                        {
+                            string tid = "-1", tpas = "-1";
+                            tid = dr.GetInt32(0).ToString(); //счет
+                            tpas = dr.GetString(1); //паспорт кли
+                            //Если нашли запись - существует
+                            if (String.Equals(textBox8.Text, tid))
+                            {
+                                t = false;
+                            }
+                            if (!String.Equals(tpas, textBox6.Text))
+                                k = false;
+
+                        }
+                        conn.Close();
+                    }
+                }
+                if (!k)
+                {
+                    MessageBox.Show("Данный счет уже занят");
+                    return;
+
+                }
+                
+                //проверка на существование паспорта клиента
+                using (SqlCommand StrQuer = new SqlCommand("SELECT clipas FROM cli " +
+                   $"WHERE clipas = '{textBox6.Text}'", conn))
+                {
+                    string tcli = "-1";
+                    conn.Open();
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                    {
+                        while (dr.Read())
+                        {
+                            string empid = "-1";
+                            empid = dr.GetString(0); //пасп клиента
+                            //Если нашли запись - существует
+                            if (String.Equals(textBox6.Text, empid))
+                            {
+                                tcli = empid;
+                                k = true;
+                            }
+                        }
+                        conn.Close();
+                        if (!k)
+                        {
+                            MessageBox.Show("Клиента не существует");
+                            return;
+                        }
+                    }
+
+                }
+
+                //Добавляем счет, если нет
+                if (t)
+                {
+                    conn.Open();
+                    DateTime myDateTime1 = DateTime.Now;
+                    DateTime myDateTime2 = DateTime.Now.AddYears(4);
+                    
+                    string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    string sqlFormattedDate2 = myDateTime2.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+    
+                    using (SqlCommand StrQuer = new SqlCommand("INSERT INTO acc (Id, opens, closes, clipas) " +
+                        $"VALUES ('{textBox8.Text}', '{sqlFormattedDate1}', '{sqlFormattedDate2}', '{textBox6.Text}');", conn))
+                    {
+                        SqlDataReader dr = StrQuer.ExecuteReader();
+                        conn.Close();
+                    }
+                }
+
+                DateTime myDateTime3 = Convert.ToDateTime(textBox3.Text);
+                DateTime myDateTime5 = Convert.ToDateTime(textBox5.Text);
+                string sqlFormattedDate3 = myDateTime3.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string sqlFormattedDate5 = myDateTime5.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                //Апдейт 
                 conn.Open();
-                DateTime myDateTime1 = Convert.ToDateTime(textBox5.Text);
-                string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                DateTime myDateTime2 = DateTime.Now;
-                string sqlFormattedDate2 = myDateTime2.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key;
                 using (SqlCommand StrQuer = new SqlCommand
-                        ("BEGIN TRANSACTION " +
-                        $"UPDATE contcard SET contcard.emppas = '{textBox1.Text}' WHERE(((contcard.emppas) = '{Program.curepas}'));" +
-                        $"UPDATE contdepo SET contdepo.emppas = '{textBox1.Text}' WHERE(((contdepo.emppas) = '{Program.curepas}'));" +
-                        $"UPDATE contloan SET contloan.emppas = '{textBox1.Text}' WHERE(((contloan.emppas) = '{Program.curepas}')); " +
-                        $"UPDATE emp SET emp.emppas = N'{textBox1.Text}', emp.fam = N'{textBox2.Text}', emp.name = N'{textBox3.Text}', emp.sname = N'{textBox4.Text}', emp.birth = '{sqlFormattedDate1}', " +
-                        $"emp.job = N'{jobcode}', emp.inn = '{textBox10.Text}', emp.snils = '{textBox9.Text}', emp.city = '{citycode}', emp.adr = N'{textBox7.Text}', emp.cadr = N'{textBox13.Text}', emp.phone = N'{textBox12.Text}', " +
-                        $"emp.jphone = N'{textBox11.Text}', emp.email = N'{textBox17.Text}', emp.updated = '{sqlFormattedDate2}' " +
-                        $" WHERE (emp.emppas = '{Program.curepas}'); " +
-                        $"UPDATE Login SET Login.login = N'{textBox16.Text}', Login.password = N'{textBox14.Text}', Login.active = N'{actcode}' " +
-                        $" WHERE (Login.Id = '{logid}');" +
-                        $" COMMIT", conn))
+                        (
+                        $"UPDATE contcard SET Id = N'{textBox1.Text}', contid = N'{textBox2.Text}', closes = N'{sqlFormattedDate3}', prcard = N'{prcode}', " +
+                        $"contdate = '{sqlFormattedDate5}', clipas = N'{textBox6.Text}', emppas = N'{textBox7.Text}', accid = N'{textBox8.Text}' " +
+                        $" WHERE (contid = '{textBox2.Text}');", conn))
+                {
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    conn.Close();
+                }
+                MessageBox.Show("Изменения сохранены");
+
+                loadinfocard(textBox2.Text);
+            }
+            else //добавляем
+            {
+                textBox7.ReadOnly = true;
+                bool k = false;
+                //нужна проверка на наличие паспорта клиента в бд, если нет - ошибка
+                using (SqlCommand StrQuer = new SqlCommand("SELECT clipas FROM cli " +
+                  $"WHERE clipas = '{textBox6.Text}'", conn))
+                {
+                    string tcli = "-1";
+                    conn.Open();
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                    {
+                        while (dr.Read())
+                        {
+                            string empid = "-1";
+                            empid = dr.GetString(0); //пасп клиента
+                            //Если нашли запись - существует
+                            if (String.Equals(textBox6.Text, empid))
+                            {
+                                tcli = empid;
+                                k = true;
+                            }
+                        }
+                        conn.Close();
+                        if (!k)
+                        {
+                            MessageBox.Show("Клиента не существует");
+                            return;
+                        }
+                    }
+
+                }
+
+                //существует ли счет
+                bool t = true; //счет не существует?
+                using (SqlCommand StrQuer = new SqlCommand("SELECT Id, clipas FROM acc " +
+                   $"WHERE Id = '{textBox8.Text}'", conn))
+                {
+                    conn.Open();
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                    {
+                        k = true;
+
+                        while (dr.Read())
+                        {
+                            string tid = "-1", tpas = "-1";
+                            tid = dr.GetInt32(0).ToString(); //счет
+                            tpas = dr.GetString(1); //паспорт кли
+                            //Если нашли запись - существует
+                            if (String.Equals(textBox8.Text, tid))
+                            {
+                                t = false;
+                            }
+                            if (!String.Equals(tpas, textBox6.Text))
+                                k = false;
+
+                        }
+                        conn.Close();
+                    }
+                }
+                if (!k)
+                {
+                    MessageBox.Show("Данный счет уже занят");
+                    return;
+
+                }
+                //Добавляем счет, если нет
+                if (t)
+                {
+                    conn.Open();
+                    DateTime myDateTime1 = DateTime.Now;
+                    DateTime myDateTime2 = DateTime.Now.AddYears(4);
+
+                    string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    string sqlFormattedDate2 = myDateTime2.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+
+                    using (SqlCommand StrQuer = new SqlCommand("INSERT INTO acc (Id, opens, closes, clipas) " +
+                        $"VALUES ('{textBox8.Text}', '{sqlFormattedDate1}', '{sqlFormattedDate2}', '{textBox6.Text}');", conn))
+                    {
+                        SqlDataReader dr = StrQuer.ExecuteReader();
+                        conn.Close();
+                    }
+                }
+
+                DateTime myDateTime3 = Convert.ToDateTime(textBox3.Text);
+                DateTime myDateTime5 = Convert.ToDateTime(textBox5.Text);
+                string sqlFormattedDate3 = myDateTime3.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string sqlFormattedDate5 = myDateTime5.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+
+                conn.Open();
+                int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key;
+                using (SqlCommand StrQuer = new SqlCommand
+                        (
+                        $"INSERT INTO contcard (Id, contid, closes, prcard, contdate, clipas,  emppas, accid) " +
+                        $"VALUES ('{textBox1.Text}', '{textBox2.Text}', '{sqlFormattedDate3}', '{prcode}', '{sqlFormattedDate5}', '{textBox6.Text}', '{textBox7.Text}', '{textBox8.Text}'); " +
+                        $" ", conn))
                 {
                     SqlDataReader dr = StrQuer.ExecuteReader();
                     conn.Close();
@@ -292,21 +496,8 @@ namespace Bank
                 MessageBox.Show("Изменения сохранены");
 
 
-
-
-
-                loadInfo(textBox2.Text);
-            }
-            else //добавляем
-            {
-                textBox7.ReadOnly = true;
-                //TODO
-                //нужна проверка на наличие паспорта клиента в бд, если нет - ошибка
-                //проверка кому принадлежит счет, если себе(clientid)/null - добавить
-
-
                 //В конце обновляем выбранный контракт
-                loadInfo(textBox2.Text);
+                loadinfocard(textBox2.Text);
             }
             ronly();
             edit.Enabled = true;
@@ -319,7 +510,7 @@ namespace Bank
         private void button4_Click(object sender, EventArgs e)
         {
             if (Program.curcont != null)
-                loadInfo(Program.curcont);
+                loadinfocard(Program.curcont);
             else
                 wipe();
 

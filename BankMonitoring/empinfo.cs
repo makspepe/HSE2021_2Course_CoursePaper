@@ -21,6 +21,7 @@ namespace Bank
 
         Dictionary<int, string> test2 = new Dictionary<int, string>();
         Dictionary<bool, string> test = new Dictionary<bool, string>();
+        Dictionary<int, string> test3 = new Dictionary<int, string>();
         #region texbox
         //Для блока текстбоксов
         public void ronly()
@@ -33,7 +34,7 @@ namespace Bank
             comboBox2.Enabled = false;
             comboBox1.Enabled = false;
             textBox7.ReadOnly = true;
-            textBox8.ReadOnly = true;
+            comboBox2.Enabled = false;
             textBox9.ReadOnly = true;
             textBox10.ReadOnly = true;
             textBox11.ReadOnly = true;
@@ -54,7 +55,7 @@ namespace Bank
             comboBox2.Enabled = true;
             comboBox1.Enabled = true;
             textBox7.ReadOnly = false;
-            textBox8.ReadOnly = false;
+            comboBox3.Enabled = true;
             textBox9.ReadOnly = false;
             textBox10.ReadOnly = false;
             textBox11.ReadOnly = false;
@@ -74,7 +75,6 @@ namespace Bank
             textBox4.Text = null;
             textBox5.Text = null;
             textBox7.Text = null;
-            textBox8.Text = null;
             textBox9.Text = null;
             textBox10.Text = null;
             textBox11.Text = null;
@@ -239,15 +239,9 @@ namespace Bank
                     }
                     
                 }
-                int citycode = getcitycode(textBox8.Text);
+                int citycode = ((KeyValuePair<int, string>)comboBox3.SelectedItem).Key;
                 string jobcode = ((KeyValuePair<int, string>)comboBox2.SelectedItem).Key.ToString();
                 string actcode = ((KeyValuePair<bool, string>)comboBox1.SelectedItem).Key.ToString();
-
-                if (citycode == -1)
-                {
-                    MessageBox.Show("Город не найден");
-                    return;
-                }
 
                 conn.Open();
                 DateTime myDateTime1 = Convert.ToDateTime(textBox5.Text);
@@ -283,16 +277,11 @@ namespace Bank
                 if (checkedata())
                 {
                     //Получаем код города
-                    int citycode = getcitycode(textBox8.Text);
+                    int citycode = ((KeyValuePair<int, string>)comboBox3.SelectedItem).Key;
                     int maxid = 0;
                     string jobcode = ((KeyValuePair<int, string>)comboBox2.SelectedItem).Key.ToString();
                     string actcode = ((KeyValuePair<bool, string>)comboBox1.SelectedItem).Key.ToString();
                     conn.Open();
-                    if (citycode == -1)
-                    {
-                        MessageBox.Show("Город не найден");
-                        return;
-                    }
                     using (SqlCommand StrQuer = new SqlCommand($"SELECT MAX(Id) FROM Login", conn))
                     {
                         SqlDataReader dr = StrQuer.ExecuteReader();
@@ -356,13 +345,36 @@ namespace Bank
                 conn.Close();
             }
 
-            //test2.Add(0, "Менеджер");
-            //test2.Add(1, "Управляющий");
-            comboBox2.DataSource = new BindingSource(test2, null);
-            comboBox2.DisplayMember = "Value";
-            comboBox2.ValueMember = "Key";
+            using (SqlCommand StrQuer = new SqlCommand("SELECT * FROM city", conn))
+            {
+                conn.Open();
+                SqlDataReader dr = StrQuer.ExecuteReader();
 
-            //((KeyValuePair<int, string>)comboBox1.SelectedItem).Key.ToString(); //вот так получать 0 1 из комбобокса
+                using (dr) //для проверки на регистр в логине/пароле
+                {
+                    while (dr.Read())
+                    {  //вставка полей в textbox
+                        int tmp;
+                        string tmps;
+                        tmp = dr.GetInt32(0); //ид города
+                        tmps = dr.GetString(1); //название
+                        test3.Add(tmp, tmps);
+                    }
+                }
+                conn.Close();
+
+                comboBox3.DataSource = new BindingSource(test3, null);
+                comboBox3.DisplayMember = "Value";
+                comboBox3.ValueMember = "Key";
+
+                //test2.Add(0, "Менеджер");
+                //test2.Add(1, "Управляющий");
+                comboBox2.DataSource = new BindingSource(test2, null);
+                comboBox2.DisplayMember = "Value";
+                comboBox2.ValueMember = "Key";
+
+                //((KeyValuePair<int, string>)comboBox1.SelectedItem).Key.ToString(); //вот так получать 0 1 из комбобокса
+            }
         }
 
         public bool checkedata()  //проверка на повторение emppas, inn, snils, login.password
@@ -380,7 +392,7 @@ namespace Bank
                 conn.Open();
                 SqlDataReader dr = StrQuer.ExecuteReader();
 
-                using (dr) //для проверки на регистр в логине/пароле
+                using (dr) 
                 {
                     while (dr.Read())
                     {
@@ -430,7 +442,7 @@ namespace Bank
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;
 
-            using (SqlCommand StrQuer = new SqlCommand("SELECT emppas, fam, emp.name, sname, birth, job, inn, snils, city.name," +
+            using (SqlCommand StrQuer = new SqlCommand("SELECT emppas, fam, emp.name, sname, birth, job, inn, snils, city.Id," +
                 " adr, cadr, phone, jphone, email, updated, Login.login, Login.password, Login.active  " +
                 "FROM emp INNER JOIN city ON emp.city = city.Id INNER JOIN Login ON emp.logid = Login.ID " +
                 "WHERE emppas=@emppas", conn)) //берем всю запись
@@ -452,7 +464,7 @@ namespace Bank
                         comboBox2.SelectedIndex = comboBox2.FindStringExact(test2[dr.GetInt32(5)]);  //ид должности
                         textBox10.Text = dr.GetString(6); //инн
                         textBox9.Text = dr.GetString(7); //снилс
-                        textBox8.Text = dr.GetString(8); // город 
+                        comboBox3.SelectedIndex = comboBox3.FindStringExact(test3[dr.GetInt32(8)]);  //город
                         textBox7.Text = dr.GetString(9); //адрес
                         textBox13.Text = dr.GetString(10); //тек адрес
                         textBox12.Text = dr.GetString(11); //тел личный
@@ -540,7 +552,7 @@ namespace Bank
                         card = dr.GetInt32(0);
                         addcard tmp = new addcard();
                         tmp.Show();
-                        tmp.loadInfo(card.ToString());
+                        tmp.loadinfocard(card.ToString());
                         conn.Close();
                         return;
                     }
@@ -554,7 +566,7 @@ namespace Bank
                         depo = dr.GetInt32(0);
                         adddepo tmp = new adddepo();
                         tmp.Show();
-                        tmp.loadInfo(depo.ToString());
+                        tmp.loadInfodepo(depo.ToString());
                         conn.Close();
                         return;
                     }
@@ -568,7 +580,7 @@ namespace Bank
                         loan = dr.GetInt32(0);
                         addloan tmp = new addloan();
                         tmp.Show();
-                        tmp.loadInfo(loan.ToString());
+                        tmp.loadInfoloan(loan.ToString());
                         conn.Close();
                         return;
                     }
@@ -576,22 +588,6 @@ namespace Bank
             MessageBox.Show($"{item}");
         }
 
-        public int getcitycode (string s)
-        {
-            var conn = new SqlConnection();
-            conn.ConnectionString = Program.str;
-            int code = -1;
-            conn.Open();
-            using (SqlCommand StrQuer = new SqlCommand($"SELECT city.Id FROM city WHERE city.name=N'{s}'", conn))
-            {
-                SqlDataReader dr = StrQuer.ExecuteReader();
-                using (dr)
-                    while (dr.Read())
-                    {
-                        code = dr.GetInt32(0);
-                    }
-            }
-            return code;
-        }
+        
     }
 }
