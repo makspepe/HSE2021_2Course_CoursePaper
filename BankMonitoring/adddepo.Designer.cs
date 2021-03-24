@@ -78,6 +78,7 @@ namespace Bank
             // 
             this.textBox8.Location = new System.Drawing.Point(400, 141);
             this.textBox8.Name = "textBox8";
+            this.textBox8.ReadOnly = true;
             this.textBox8.Size = new System.Drawing.Size(112, 20);
             this.textBox8.TabIndex = 34;
             // 
@@ -94,6 +95,7 @@ namespace Bank
             // 
             this.textBox7.Location = new System.Drawing.Point(204, 141);
             this.textBox7.Name = "textBox7";
+            this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(173, 20);
             this.textBox7.TabIndex = 32;
             // 
@@ -101,6 +103,7 @@ namespace Bank
             // 
             this.textBox6.Location = new System.Drawing.Point(27, 141);
             this.textBox6.Name = "textBox6";
+            this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(157, 20);
             this.textBox6.TabIndex = 31;
             // 
@@ -117,6 +120,7 @@ namespace Bank
             // 
             this.textBox5.Location = new System.Drawing.Point(400, 90);
             this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(112, 20);
             this.textBox5.TabIndex = 29;
             // 
@@ -142,6 +146,7 @@ namespace Bank
             // 
             this.textBox3.Location = new System.Drawing.Point(400, 51);
             this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(112, 20);
             this.textBox3.TabIndex = 25;
             // 
@@ -158,6 +163,7 @@ namespace Bank
             // 
             this.textBox2.Location = new System.Drawing.Point(204, 31);
             this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(173, 20);
             this.textBox2.TabIndex = 23;
             // 
@@ -174,6 +180,7 @@ namespace Bank
             // 
             this.textBox1.Location = new System.Drawing.Point(24, 31);
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(160, 20);
             this.textBox1.TabIndex = 21;
             // 
@@ -194,6 +201,7 @@ namespace Bank
             this.create.TabIndex = 44;
             this.create.Text = "Создать";
             this.create.UseVisualStyleBackColor = true;
+            this.create.Click += new System.EventHandler(this.button5_Click);
             // 
             // label10
             // 
@@ -240,6 +248,7 @@ namespace Bank
             this.revert.Text = "Отмена";
             this.revert.UseVisualStyleBackColor = true;
             this.revert.Visible = false;
+            this.revert.Click += new System.EventHandler(this.button4_Click);
             // 
             // save
             // 
@@ -250,6 +259,7 @@ namespace Bank
             this.save.Text = "Сохранить";
             this.save.UseVisualStyleBackColor = true;
             this.save.Visible = false;
+            this.save.Click += new System.EventHandler(this.button3_Click);
             // 
             // deletecon
             // 
@@ -260,6 +270,7 @@ namespace Bank
             this.deletecon.Text = "Удалить";
             this.deletecon.UseVisualStyleBackColor = true;
             this.deletecon.Visible = false;
+            this.deletecon.Click += new System.EventHandler(this.button2_Click);
             // 
             // edit
             // 
@@ -269,11 +280,13 @@ namespace Bank
             this.edit.TabIndex = 36;
             this.edit.Text = "Редактировать";
             this.edit.UseVisualStyleBackColor = true;
+            this.edit.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox11
             // 
             this.textBox11.Location = new System.Drawing.Point(400, 25);
             this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
             this.textBox11.Size = new System.Drawing.Size(112, 20);
             this.textBox11.TabIndex = 45;
             // 
@@ -281,6 +294,7 @@ namespace Bank
             // 
             this.textBox12.Location = new System.Drawing.Point(265, 57);
             this.textBox12.Name = "textBox12";
+            this.textBox12.ReadOnly = true;
             this.textBox12.Size = new System.Drawing.Size(112, 20);
             this.textBox12.TabIndex = 46;
             // 

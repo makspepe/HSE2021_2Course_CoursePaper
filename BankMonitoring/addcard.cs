@@ -531,6 +531,34 @@ namespace Bank
             save.Visible = true;
             revert.Visible = true;
             textBox7.Text = Program.emppas;
+
+            textBox1.ReadOnly = true;
+            textBox2.ReadOnly = true;
+
+            var conn = new SqlConnection();
+            conn.ConnectionString = Program.str;
+            conn.Open();
+            int maxloc = -1, maxc = -1;
+            using (SqlCommand StrQuer = new SqlCommand($"SELECT MAX(contid) FROM contcard", conn))
+            {
+                SqlDataReader dr = StrQuer.ExecuteReader();
+                using (dr)
+                    while (dr.Read())
+                    {
+                        maxloc = dr.GetInt32(0);
+                    }
+            }
+            using (SqlCommand StrQuer = new SqlCommand($"SELECT MAX(Id) FROM contract", conn))
+            {
+                SqlDataReader dr = StrQuer.ExecuteReader();
+                using (dr)
+                    while (dr.Read())
+                    {
+                        maxc = dr.GetInt32(0);
+                    }
+            }
+            textBox1.Text = (maxloc + 1).ToString();
+            textBox2.Text = (maxc + 1).ToString();
         }
     }
 }

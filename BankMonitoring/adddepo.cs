@@ -19,6 +19,7 @@ namespace Bank
         }
 
         Dictionary<int, string> test = new Dictionary<int, string>();
+        Dictionary<bool, string> test1 = new Dictionary<bool, string>();
 
         private void addcard_VisibleChanged(object sender, EventArgs e)
         {
@@ -49,15 +50,18 @@ namespace Bank
                         textBox1.Text = dr.GetInt32(0).ToString(); //ид вклада
                         textBox2.Text = dr.GetInt32(1).ToString(); //ид договора
                         textBox12.Text = dr.GetDecimal(2).ToString(); //сумма вклада
-
-                        textBox3.Text = dr.GetDateTime(2).Date.ToString("d"); //заканчивается
-                        comboBox1.SelectedIndex = comboBox1.FindStringExact(test[dr.GetInt32(3)]); //код программы вклада
-                        textBox5.Text = dr.GetDateTime(4).Date.ToString("d"); //заключение
-                        textBox6.Text = dr.GetString(5); //паспорт клиента
-                        textBox7.Text = dr.GetString(6); //паспорт сотрудника
-                        textBox8.Text = dr.GetInt32(7).ToString(); // номер счета
-                        textBox9.Text = dr.GetDecimal(10).ToString(); // 10 loan lim
-                        textBox10.Text = dr.GetDecimal(11).ToString(); // 11 loan max
+                        textBox11.Text = dr.GetDateTime(3).Date.ToString("d"); //нач
+                        textBox3.Text = dr.GetDateTime(4).Date.ToString("d"); //заканчивается
+                        comboBox1.SelectedIndex = comboBox1.FindStringExact(test[dr.GetInt32(5)]); //код программы вклада
+                        textBox5.Text = dr.GetDateTime(6).Date.ToString("d"); //заключение
+                        textBox6.Text = dr.GetString(7); //паспорт клиента
+                        textBox7.Text = dr.GetString(8); //паспорт сотрудника
+                        textBox8.Text = dr.GetInt32(9).ToString(); // номер счета
+                        textBox9.Text = dr.GetDecimal(12).ToString(); // loan lim
+                        textBox10.Text = dr.GetDecimal(13).ToString(); // loan max
+                        textBox4.Text = dr.GetDouble(14).ToString(); //проц
+                        comboBox2.SelectedIndex = comboBox2.FindStringExact(test1[dr.GetBoolean(15)]); //да нет
+                        textBox13.Text = dr.GetDouble(16).ToString(); //проц при доср
                     }
                 }
                 conn.Close();
@@ -66,6 +70,11 @@ namespace Bank
         }
         private void addcard_Load(object sender, EventArgs e) //загрузка словаря для комбобокса из ДБ
         {
+            test1.Add(false, "Нет");
+            test1.Add(true, "Да");
+            comboBox2.DataSource = new BindingSource(test1, null);
+            comboBox2.DisplayMember = "Value";
+            comboBox2.ValueMember = "Key";
 
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;
@@ -106,6 +115,8 @@ namespace Bank
             textBox6.ReadOnly = true;
             textBox7.ReadOnly = true;
             textBox8.ReadOnly = true;
+            textBox11.ReadOnly = true;
+            textBox12.ReadOnly = true;
         }
         public void write()
         {
@@ -117,6 +128,8 @@ namespace Bank
             textBox6.ReadOnly = false;
             textBox7.ReadOnly = false;
             textBox8.ReadOnly = false;
+            textBox11.ReadOnly = false;
+            textBox12.ReadOnly = false;
 
         }
 
@@ -125,12 +138,17 @@ namespace Bank
             textBox1.Text = null;
             textBox2.Text = null;
             textBox3.Text = null;
+            textBox4.Text = null;
             textBox5.Text = null;
             textBox6.Text = null;
             textBox7.Text = null;
             textBox8.Text = null;
             textBox9.Text = null;
             textBox10.Text = null;
+            textBox11.Text = null;
+            textBox12.Text = null;
+            textBox13.Text = null;
+
         }
         #endregion
 
@@ -145,7 +163,7 @@ namespace Bank
 
                 using (SqlCommand StrQuer = new SqlCommand("BEGIN TRANSACTION " +
                     $"DELETE FROM contract WHERE Id = '{Program.curcont}'; " +
-                    $"DELETE FROM contcard WHERE contid = '{Program.curcont}';" +
+                    $"DELETE FROM contdepo WHERE contid = '{Program.curcont}';" +
                     $"COMMIT", conn))
                 {
                     conn.Open();
@@ -183,11 +201,10 @@ namespace Bank
             conn.ConnectionString = Program.str;
             if (edit.Enabled == true)  //редакт
             {
-
-                //Получение ном дог и карты текущ договора
+                //Получение ном дог и вклада текущ договора
                 string cardid = "-1", conid = "-1";
                 using (SqlCommand StrQuer = new SqlCommand("SELECT Id, contid " +
-                    "FROM contcard " +
+                    "FROM contdepo " +
                     $"WHERE contid = {Program.curcont}", conn))
                 {
                     conn.Open();
@@ -205,9 +222,9 @@ namespace Bank
                 }
                 //проверка текущего номера договора и карты на повторение (кроме себя самого)
                 bool k = true; ;
-                using (SqlCommand StrQuer = new SqlCommand("SELECT contcard.Id, contract.Id " +
-                    "FROM contcard INNER JOIN contract ON contcard.contid = contract.Id " +
-                    $"WHERE contcard.contid = '{textBox1.Text}' " +
+                using (SqlCommand StrQuer = new SqlCommand("SELECT contdepo.Id, contract.Id " +
+                    "FROM contdepo INNER JOIN contract ON contdepo.contid = contract.Id " +
+                    $"WHERE contdepo.contid = '{textBox1.Text}' " +
                     $"OR contract.Id = '{textBox2.Text}'", conn))
                 {
                     conn.Open();
@@ -246,7 +263,7 @@ namespace Bank
                         }
                         if (!found)
                         {
-                            MessageBox.Show("Номера договора карты не существует");
+                            MessageBox.Show("Номера договора вклада не существует");
                             textBox1.Text = null;
                             textBox2.Text = null;
                             return;
@@ -369,18 +386,20 @@ namespace Bank
                         conn.Close();
                     }
                 }
-
+                DateTime myDateTime11 = Convert.ToDateTime(textBox11.Text);
                 DateTime myDateTime3 = Convert.ToDateTime(textBox3.Text);
                 DateTime myDateTime5 = Convert.ToDateTime(textBox5.Text);
                 string sqlFormattedDate3 = myDateTime3.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 string sqlFormattedDate5 = myDateTime5.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string sqlFormattedDate11 = myDateTime11.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
                 //Апдейт 
                 conn.Open();
                 int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key;
                 using (SqlCommand StrQuer = new SqlCommand
                         (
-                        $"UPDATE contcard SET Id = N'{textBox1.Text}', contid = N'{textBox2.Text}', closes = N'{sqlFormattedDate3}', prcard = N'{prcode}', " +
+                        $"UPDATE contdepo SET Id = N'{textBox1.Text}', contid = N'{textBox2.Text}', sum = N'{textBox12.Text.Replace(",0000","")}', " +
+                        $"opens = N'{sqlFormattedDate11}', closes = N'{sqlFormattedDate3}', prdepo = N'{prcode}', " +
                         $"contdate = '{sqlFormattedDate5}', clipas = N'{textBox6.Text}', emppas = N'{textBox7.Text}', accid = N'{textBox8.Text}' " +
                         $" WHERE (contid = '{textBox2.Text}');", conn))
                 {
@@ -389,7 +408,7 @@ namespace Bank
                 }
                 MessageBox.Show("Изменения сохранены");
 
-                loadInfo(textBox2.Text);
+                loadInfodepo(textBox2.Text);
             }
             else //добавляем
             {
@@ -478,19 +497,25 @@ namespace Bank
                     }
                 }
 
+                DateTime myDateTime11 = Convert.ToDateTime(textBox11.Text);
                 DateTime myDateTime3 = Convert.ToDateTime(textBox3.Text);
                 DateTime myDateTime5 = Convert.ToDateTime(textBox5.Text);
                 string sqlFormattedDate3 = myDateTime3.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 string sqlFormattedDate5 = myDateTime5.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string sqlFormattedDate11 = myDateTime11.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
 
                 conn.Open();
                 int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key;
                 using (SqlCommand StrQuer = new SqlCommand
                         (
-                        $"INSERT INTO contcard (Id, contid, closes, prcard, contdate, clipas,  emppas, accid) " +
-                        $"VALUES ('{textBox1.Text}', '{textBox2.Text}', '{sqlFormattedDate3}', '{prcode}', '{sqlFormattedDate5}', '{textBox6.Text}', '{textBox7.Text}', '{textBox8.Text}'); " +
-                        $" ", conn))
+                        "BEGIN TRANSACTION " +
+                        $"INSERT INTO contdepo (Id, contid, sum, opens, closes, prdepo, contdate, clipas,  emppas, accid) " +
+                        $"VALUES ('{textBox1.Text}', '{textBox2.Text}', '{textBox12.Text.Replace(", 0000","")}', '{sqlFormattedDate11}', " +
+                        $"'{sqlFormattedDate3}', '{prcode}', '{sqlFormattedDate5}', '{textBox6.Text}', '{textBox7.Text}', '{textBox8.Text}'); " +
+                        $"INSERT INTO contract (Id) " +
+                        $"VALUES ('{textBox2.Text}');" +
+                        $" COMMIT", conn))
                 {
                     SqlDataReader dr = StrQuer.ExecuteReader();
                     conn.Close();
@@ -499,7 +524,7 @@ namespace Bank
 
 
                 //В конце обновляем выбранный контракт
-                loadInfo(textBox2.Text);
+                loadInfodepo(textBox2.Text);
             }
             ronly();
             edit.Enabled = true;
@@ -512,7 +537,7 @@ namespace Bank
         private void button4_Click(object sender, EventArgs e)
         {
             if (Program.curcont != null)
-                loadInfo(Program.curcont);
+                loadInfodepo(Program.curcont);
             else
                 wipe();
 
@@ -533,11 +558,41 @@ namespace Bank
             save.Visible = true;
             revert.Visible = true;
             textBox7.Text = Program.emppas;
+
+            textBox1.ReadOnly = true;
+            textBox2.ReadOnly = true;
+
+            //лочим кнопки договора 1 2
+            //ищем макс знач в contract, depo
+            //парсим макс+1 в текстбоксы
+
+            var conn = new SqlConnection();
+            conn.ConnectionString = Program.str;
+            conn.Open();
+            int maxloc = -1, maxc = -1;
+            using (SqlCommand StrQuer = new SqlCommand($"SELECT MAX(contid) FROM contdepo", conn))
+            {
+                SqlDataReader dr = StrQuer.ExecuteReader();
+                using (dr)
+                    while (dr.Read())
+                    {
+                        maxloc = dr.GetInt32(0);
+                    }
+            }
+            using (SqlCommand StrQuer = new SqlCommand($"SELECT MAX(Id) FROM contract", conn))
+            {
+                SqlDataReader dr = StrQuer.ExecuteReader();
+                using (dr)
+                    while (dr.Read())
+                    {
+                        maxc = dr.GetInt32(0);
+                    }
+            }
+            textBox1.Text = (maxloc + 1).ToString();
+            textBox2.Text = (maxc + 1).ToString();
+
+           
         }
 
-        public void loadInfo(string contnum)
-        {
-
-        }
     }
 }

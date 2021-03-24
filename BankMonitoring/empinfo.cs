@@ -538,56 +538,62 @@ namespace Bank
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) //получаем id из клетки и переходим в форму договора
         {
-            var conn = new SqlConnection();
-            conn.ConnectionString = Program.str;
-            var item = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
-            int loan, depo, card;
-            conn.Open();
-            using (SqlCommand StrQuer = new SqlCommand($"SELECT contid FROM contcard WHERE contid=N'{item}'", conn))
+            try
             {
-                SqlDataReader dr = StrQuer.ExecuteReader();
-                using (dr)
-                    while (dr.Read())
-                    {
-                        card = dr.GetInt32(0);
-                        addcard tmp = new addcard();
-                        tmp.Show();
-                        tmp.loadinfocard(card.ToString());
-                        conn.Close();
-                        return;
-                    }
-            }
-            using (SqlCommand StrQuer = new SqlCommand($"SELECT contid FROM contdepo WHERE contid=N'{item}'", conn))
-            {
-                SqlDataReader dr = StrQuer.ExecuteReader();
-                using (dr)
-                    while (dr.Read())
-                    {
-                        depo = dr.GetInt32(0);
-                        adddepo tmp = new adddepo();
-                        tmp.Show();
-                        tmp.loadInfodepo(depo.ToString());
-                        conn.Close();
-                        return;
-                    }
-            }
-            using (SqlCommand StrQuer = new SqlCommand($"SELECT contid FROM contloan WHERE contid=N'{item}'", conn))
-            {
-                SqlDataReader dr = StrQuer.ExecuteReader();
-                using (dr)
-                    while (dr.Read())
-                    {
-                        loan = dr.GetInt32(0);
-                        addloan tmp = new addloan();
-                        tmp.Show();
-                        tmp.loadInfoloan(loan.ToString());
-                        conn.Close();
-                        return;
-                    }
-            }
-            MessageBox.Show($"{item}");
-        }
 
+                var conn = new SqlConnection();
+                conn.ConnectionString = Program.str;
+                var item = dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+                int loan, depo, card;
+                conn.Open();
+                using (SqlCommand StrQuer = new SqlCommand($"SELECT contid FROM contcard WHERE contid=N'{item}'", conn))
+                {
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                        while (dr.Read())
+                        {
+                            card = dr.GetInt32(0);
+                            addcard tmp = new addcard();
+                            tmp.Show();
+                            tmp.loadinfocard(card.ToString());
+                            conn.Close();
+                            return;
+                        }
+                }
+                using (SqlCommand StrQuer = new SqlCommand($"SELECT contid FROM contdepo WHERE contid=N'{item}'", conn))
+                {
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                        while (dr.Read())
+                        {
+                            depo = dr.GetInt32(0);
+                            adddepo tmp = new adddepo();
+                            tmp.Show();
+                            tmp.loadInfodepo(depo.ToString());
+                            conn.Close();
+                            return;
+                        }
+                }
+                using (SqlCommand StrQuer = new SqlCommand($"SELECT contid FROM contloan WHERE contid=N'{item}'", conn))
+                {
+                    SqlDataReader dr = StrQuer.ExecuteReader();
+                    using (dr)
+                        while (dr.Read())
+                        {
+                            loan = dr.GetInt32(0);
+                            addloan tmp = new addloan();
+                            tmp.Show();
+                            tmp.loadInfoloan(loan.ToString());
+                            conn.Close();
+                            return;
+                        }
+                }
+            }
+
+            catch (Exception )
+            { }
+
+        }
         
     }
 }

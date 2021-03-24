@@ -12,7 +12,7 @@ namespace Bank
     {
         public static string appPath = Application.StartupPath.Replace("\\bin\\Debug", "\\Data");
         public static string str = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={appPath}\Bank.mdf;Integrated Security=True;";
-        public static bool isgovernor = true; //TODO TEST
+        public static bool isgovernor = false; //TODO TEST
         public static string emppas, fam, name, sname, curepas, curcpas, curcont;
 
         public static bool FIO(string s)
@@ -38,7 +38,6 @@ namespace Bank
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Login());
-            //Application.Run(new empinfo()); //TODO TEST
         }
     }
 }
