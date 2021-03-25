@@ -64,17 +64,11 @@
     <Compile Include="addloan.Designer.cs">
       <DependentUpon>addloan.cs</DependentUpon>
     </Compile>
-    <Compile Include="clieninfo.cs">
+    <Compile Include="clieinfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="clieninfo.Designer.cs">
-      <DependentUpon>clieninfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="continfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="continfo.Designer.cs">
-      <DependentUpon>continfo.cs</DependentUpon>
+    <Compile Include="clieinfo.Designer.cs">
+      <DependentUpon>clieinfo.cs</DependentUpon>
     </Compile>
     <Compile Include="empinfo.cs">
       <SubType>Form</SubType>
@@ -94,23 +88,11 @@
     <Compile Include="Searchf.Designer.cs">
       <DependentUpon>Searchf.cs</DependentUpon>
     </Compile>
-    <Compile Include="TreeViewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TreeViewForm.Designer.cs">
-      <DependentUpon>TreeViewForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NameForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NameForm.Designer.cs">
-      <DependentUpon>NameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -123,11 +105,8 @@
     <EmbeddedResource Include="addloan.resx">
       <DependentUpon>addloan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="clieninfo.resx">
-      <DependentUpon>clieninfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="continfo.resx">
-      <DependentUpon>continfo.cs</DependentUpon>
+    <EmbeddedResource Include="clieinfo.resx">
+      <DependentUpon>clieinfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="empinfo.resx">
       <DependentUpon>empinfo.cs</DependentUpon>
@@ -138,14 +117,8 @@
     <EmbeddedResource Include="Searchf.resx">
       <DependentUpon>Searchf.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TreeViewForm.resx">
-      <DependentUpon>TreeViewForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NameForm.resx">
-      <DependentUpon>NameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

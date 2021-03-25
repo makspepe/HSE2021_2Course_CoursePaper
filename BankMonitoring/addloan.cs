@@ -554,6 +554,8 @@ namespace Bank
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
 
+            textBox5.Text = DateTime.Now.ToShortDateString();
+
             //лочим кнопки договора 1 2
             //ищем макс знач в contract, depo
             //парсим макс+1 в текстбоксы

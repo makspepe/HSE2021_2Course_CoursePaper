@@ -534,6 +534,7 @@ namespace Bank
 
             textBox1.ReadOnly = true;
             textBox2.ReadOnly = true;
+            textBox5.Text = DateTime.Now.ToShortDateString();
 
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;

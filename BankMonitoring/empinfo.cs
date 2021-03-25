@@ -64,7 +64,7 @@ namespace Bank
             textBox14.ReadOnly = false;
             textBox15.ReadOnly = false;
             textBox16.ReadOnly = false;
-            textBox17.ReadOnly = false;
+           textBox17.ReadOnly = false;
         }
 
         public void wipe()
@@ -137,6 +137,7 @@ namespace Bank
             wipe();
             button4.Enabled = false;
             changeBut(1);
+            textBox15.Text = DateTime.Now.ToShortDateString();
 
         }
 
@@ -264,6 +265,9 @@ namespace Bank
                     SqlDataReader dr = StrQuer.ExecuteReader();
                     conn.Close();
                 }
+                Program.curepas = textBox1.Text;
+                empdata(Program.curepas);
+                button2.PerformClick();
                 MessageBox.Show("Изменения сохранены");
             }
 
@@ -291,12 +295,18 @@ namespace Bank
                                 maxid = dr.GetInt32(0);
                             }
                     }
+
+                    DateTime myDateTime3 = Convert.ToDateTime(textBox5.Text);
+                    string sqlFormattedDate3 = myDateTime3.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    DateTime myDateTime1 = DateTime.Now;
+                    string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
                     using (SqlCommand StrQuer = new SqlCommand("BEGIN TRANSACTION " +
                         "INSERT INTO emp (emppas, fam, emp.name, sname, birth, job, inn, snils, emp.city," +
                         " adr, cadr, phone, jphone, email, updated, logid) " +
-                        $"VALUES ('{textBox1.Text}', N'{textBox2.Text}', N'{textBox3.Text}', N'{textBox3.Text}', '{textBox5.Text}', '{jobcode}', " +
+                        $"VALUES ('{textBox1.Text}', N'{textBox2.Text}', N'{textBox3.Text}', N'{textBox3.Text}', '{sqlFormattedDate3}', '{jobcode}', " +
                         $"'{textBox10.Text}', '{textBox9.Text}', '{citycode}', N'{textBox7.Text}', N'{textBox13.Text}', '{textBox12.Text}', '{textBox11.Text}', " +
-                        $"'{textBox17.Text}', '{textBox15.Text}', '{maxid + 1}'); " +
+                        $"'{textBox17.Text}', '{sqlFormattedDate1}', '{maxid + 1}'); " +
                         $"INSERT INTO Login (login, password, active) " +
                         $"VALUES ('{textBox16.Text}', '{textBox14.Text}', '{actcode}'); " +
                         $"COMMIT", conn))
@@ -304,6 +314,9 @@ namespace Bank
                         SqlDataReader dr = StrQuer.ExecuteReader();
                         conn.Close();
                     }
+                    Program.curepas = textBox1.Text;
+                    empdata(Program.curepas);
+                    button2.PerformClick();
                     MessageBox.Show("Изменения сохранены");
                 }
             }
@@ -489,7 +502,7 @@ namespace Bank
             conn.ConnectionString = Program.str;
             List<string[]> data = new List<string[]>();
             conn.Open();
-            using (SqlCommand StrQuer = new SqlCommand($"SELECT contdepo.contid, contdate FROM contdepo WHERE(((contdepo.emppas) = '{textBox1.Text}'));", conn))
+            using (SqlCommand StrQuer = new SqlCommand($"SELECT contdepo.contid, contdate FROM contdepo WHERE(((contdepo.emppas) = '{Program.curepas}'));", conn))
             {
                 SqlDataReader dr = StrQuer.ExecuteReader();
                 using (dr)
@@ -503,7 +516,7 @@ namespace Bank
                     }
                 }
             }
-            using (SqlCommand StrQuer = new SqlCommand($"SELECT contcard.contid, contdate FROM contcard WHERE(((contcard.emppas) = '{textBox1.Text}'));", conn))
+            using (SqlCommand StrQuer = new SqlCommand($"SELECT contcard.contid, contdate FROM contcard WHERE(((contcard.emppas) = '{Program.curepas}'));", conn))
             {
                 SqlDataReader dr = StrQuer.ExecuteReader();
                 using (dr)
@@ -517,7 +530,7 @@ namespace Bank
                     }
                 }
             }
-            using (SqlCommand StrQuer = new SqlCommand($"SELECT contloan.contid, contdate FROM contloan WHERE(((contloan.emppas) = '{textBox1.Text}'));", conn))
+            using (SqlCommand StrQuer = new SqlCommand($"SELECT contloan.contid, contdate FROM contloan WHERE(((contloan.emppas) = '{Program.curepas}'));", conn))
             {
                 SqlDataReader dr = StrQuer.ExecuteReader();
                 using (dr)
@@ -534,6 +547,8 @@ namespace Bank
                 }
             }
             conn.Close();
+            dataGridView1.Sort(dataGridView1.Columns[1], ListSortDirection.Ascending);
+
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) //получаем id из клетки и переходим в форму договора

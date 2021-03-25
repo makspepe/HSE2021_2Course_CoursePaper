@@ -142,6 +142,7 @@ namespace Bank
             this.addclientb.Size = new System.Drawing.Size(59, 47);
             this.addclientb.TabIndex = 2;
             this.addclientb.UseVisualStyleBackColor = true;
+            this.addclientb.Click += new System.EventHandler(this.addclientb_Click);
             // 
             // searchb
             // 

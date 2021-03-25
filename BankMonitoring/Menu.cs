@@ -67,5 +67,16 @@ namespace Bank
             Program.curepas = null;
             tmp.button5.PerformClick();
         }
+
+        private void addclientb_Click(object sender, EventArgs e)
+        {
+            clieinfo tmp = new clieinfo();
+            tmp.Show();
+            //Program.curcpas = null;
+            tmp.clidata(Program.curcpas); //TEST TODO
+            tmp.button2.PerformClick(); //TEST
+            //tmp.button5.PerformClick();
+
+        }
     }
 }
