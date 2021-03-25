@@ -522,7 +522,7 @@ namespace Bank
         }
 
         //создать
-        private void button5_Click(object sender, EventArgs e)
+        public void button5_Click(object sender, EventArgs e)
         {
             Program.curcont = null;
             wipe();

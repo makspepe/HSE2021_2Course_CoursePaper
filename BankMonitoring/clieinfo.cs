@@ -581,8 +581,33 @@ namespace Bank
 
             catch (Exception)
             { }
+        }
+
+        private void button3_Click(object sender, EventArgs e) //на карту
+        {
+            addcard tmp = new addcard();
+            tmp.Show();
+            tmp.create.PerformClick();
+            tmp.textBox6.Text = textBox1.Text;
 
         }
 
+        private void button7_Click(object sender, EventArgs e) //на вклад
+        {
+            adddepo tmp = new adddepo();
+            tmp.Show();
+            tmp.create.PerformClick();
+            tmp.textBox6.Text = textBox1.Text;
+
+        }
+
+        private void button8_Click(object sender, EventArgs e) //на кредит
+        {
+            addloan tmp = new addloan();
+            tmp.Show();
+            tmp.create.PerformClick();
+            tmp.textBox6.Text = textBox1.Text;
+
+        }
     }
 }

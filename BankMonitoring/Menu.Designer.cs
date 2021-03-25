@@ -51,7 +51,7 @@ namespace Bank
             this.выходИзСистемыToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(335, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -77,7 +77,7 @@ namespace Bank
             // ФИО
             // 
             this.ФИО.AutoSize = true;
-            this.ФИО.Location = new System.Drawing.Point(341, 9);
+            this.ФИО.Location = new System.Drawing.Point(12, 218);
             this.ФИО.Name = "ФИО";
             this.ФИО.Size = new System.Drawing.Size(34, 13);
             this.ФИО.TabIndex = 5;
@@ -87,7 +87,7 @@ namespace Bank
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(506, 24);
+            this.label1.Location = new System.Drawing.Point(11, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(218, 13);
             this.label1.TabIndex = 6;
@@ -96,7 +96,7 @@ namespace Bank
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(572, 82);
+            this.label2.Location = new System.Drawing.Point(77, 97);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 13);
             this.label2.TabIndex = 7;
@@ -105,11 +105,12 @@ namespace Bank
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(555, 135);
+            this.label3.Location = new System.Drawing.Point(60, 150);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(169, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Добавление нового сотрудника";
+            this.label3.Visible = false;
             // 
             // addempb
             // 
@@ -120,7 +121,7 @@ namespace Bank
             this.addempb.FlatAppearance.BorderSize = 0;
             this.addempb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addempb.ForeColor = System.Drawing.Color.Black;
-            this.addempb.Location = new System.Drawing.Point(729, 118);
+            this.addempb.Location = new System.Drawing.Point(234, 133);
             this.addempb.Name = "addempb";
             this.addempb.Size = new System.Drawing.Size(59, 47);
             this.addempb.TabIndex = 3;
@@ -137,7 +138,7 @@ namespace Bank
             this.addclientb.FlatAppearance.BorderSize = 0;
             this.addclientb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addclientb.ForeColor = System.Drawing.Color.Black;
-            this.addclientb.Location = new System.Drawing.Point(729, 65);
+            this.addclientb.Location = new System.Drawing.Point(234, 80);
             this.addclientb.Name = "addclientb";
             this.addclientb.Size = new System.Drawing.Size(59, 47);
             this.addclientb.TabIndex = 2;
@@ -153,7 +154,7 @@ namespace Bank
             this.searchb.FlatAppearance.BorderSize = 0;
             this.searchb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchb.ForeColor = System.Drawing.Color.Black;
-            this.searchb.Location = new System.Drawing.Point(729, 12);
+            this.searchb.Location = new System.Drawing.Point(234, 27);
             this.searchb.Name = "searchb";
             this.searchb.Size = new System.Drawing.Size(59, 47);
             this.searchb.TabIndex = 1;
@@ -165,7 +166,7 @@ namespace Bank
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(335, 244);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);

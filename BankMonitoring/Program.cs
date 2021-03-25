@@ -13,7 +13,7 @@ namespace Bank
         public static string appPath = Application.StartupPath.Replace("\\bin\\Debug", "\\Data");
         public static string str = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={appPath}\Bank.mdf;Integrated Security=True;";
         public static bool isgovernor = false;
-        public static string emppas, fam, name, sname, curepas, curcpas = "10-10-123455", curcont;
+        public static string emppas, fam, name, sname, curepas, curcpas, curcont;
 
         public static bool FIO(string s)
         {

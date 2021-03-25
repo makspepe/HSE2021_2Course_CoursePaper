@@ -66,11 +66,14 @@ namespace Bank
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.Договор = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Дата = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -409,6 +412,17 @@ namespace Bank
             this.dataGridView1.TabIndex = 80;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
+            // Договор
+            // 
+            this.Договор.HeaderText = "Договор";
+            this.Договор.Name = "Договор";
+            this.Договор.ReadOnly = true;
+            // 
+            // Дата
+            // 
+            this.Дата.HeaderText = "Дата заключения";
+            this.Дата.Name = "Дата";
+            // 
             // textBox6
             // 
             this.textBox6.Location = new System.Drawing.Point(543, 149);
@@ -426,17 +440,6 @@ namespace Bank
             this.label2.TabIndex = 124;
             this.label2.Text = "Доход";
             // 
-            // Договор
-            // 
-            this.Договор.HeaderText = "Договор";
-            this.Договор.Name = "Договор";
-            this.Договор.ReadOnly = true;
-            // 
-            // Дата
-            // 
-            this.Дата.HeaderText = "Дата заключения";
-            this.Дата.Name = "Дата";
-            // 
             // textBox8
             // 
             this.textBox8.Location = new System.Drawing.Point(16, 62);
@@ -446,12 +449,45 @@ namespace Bank
             this.textBox8.TabIndex = 125;
             this.textBox8.Visible = false;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(900, 76);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(118, 23);
+            this.button3.TabIndex = 126;
+            this.button3.Text = "Договор на карту";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(900, 105);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(118, 23);
+            this.button7.TabIndex = 127;
+            this.button7.Text = "Договор на вклад";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(900, 134);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(116, 23);
+            this.button8.TabIndex = 128;
+            this.button8.Text = "Договор на кредит";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // clieinfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1030, 576);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox8);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox6);
@@ -546,5 +582,8 @@ namespace Bank
         private System.Windows.Forms.DataGridViewTextBoxColumn Договор;
         private System.Windows.Forms.DataGridViewTextBoxColumn Дата;
         private System.Windows.Forms.TextBox textBox8;
+        public System.Windows.Forms.Button button3;
+        public System.Windows.Forms.Button button7;
+        public System.Windows.Forms.Button button8;
     }
 }

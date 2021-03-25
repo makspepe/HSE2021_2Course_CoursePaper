@@ -27,6 +27,17 @@ namespace Bank
 
         private void выходИзСистемыToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            List<Form> openForms = new List<Form>();
+
+            foreach (Form f in Application.OpenForms)
+                openForms.Add(f);
+
+            foreach (Form f in openForms)
+            {
+                if (!(String.Equals(f.Name, "Login") || String.Equals(f.Name, "Меню")))
+                    f.Close();
+            }
+
             Login tmp = new Login();
             tmp.Show();
             this.Hide();
@@ -37,17 +48,14 @@ namespace Bank
             Application.Exit();
         }
 
-        private void Меню_VisibleChanged(object sender, EventArgs e) //смена имени пользователя
+        private void Меню_VisibleChanged(object sender, EventArgs e) //показ имени пользователя
         {
             ФИО.Text = $"{Program.fam} {Program.name} {Program.sname}";
             if (Program.isgovernor)
             {
                 ФИО.Text = ФИО.Text + ", Управляющий";
                 addempb.Visible = true;
-            }
-            else
-            {
-                addempb.Visible = false;
+                label3.Visible = true;
             }
         }
 
@@ -68,14 +76,12 @@ namespace Bank
             tmp.button5.PerformClick();
         }
 
-        private void addclientb_Click(object sender, EventArgs e)
+        private void addclientb_Click(object sender, EventArgs e) //добавление клиента
         {
             clieinfo tmp = new clieinfo();
             tmp.Show();
-            //Program.curcpas = null;
-            tmp.clidata(Program.curcpas); //TEST TODO
-            tmp.button2.PerformClick(); //TEST
-            //tmp.button5.PerformClick();
+            Program.curcpas = null;
+            tmp.button5.PerformClick();
 
         }
     }

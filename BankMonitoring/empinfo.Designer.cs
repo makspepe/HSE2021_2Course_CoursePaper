@@ -30,6 +30,8 @@ namespace Bank
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Договор = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Дата = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -72,8 +74,6 @@ namespace Bank
             this.button2 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.Договор = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Дата = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,6 +91,17 @@ namespace Bank
             this.dataGridView1.Size = new System.Drawing.Size(1004, 364);
             this.dataGridView1.TabIndex = 10;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // Договор
+            // 
+            this.Договор.HeaderText = "Договор";
+            this.Договор.Name = "Договор";
+            this.Договор.ReadOnly = true;
+            // 
+            // Дата
+            // 
+            this.Дата.HeaderText = "Дата заключения";
+            this.Дата.Name = "Дата";
             // 
             // button6
             // 
@@ -441,6 +452,7 @@ namespace Bank
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(129, 21);
             this.comboBox1.TabIndex = 76;
+            this.comboBox1.Visible = false;
             // 
             // button2
             // 
@@ -471,17 +483,6 @@ namespace Bank
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(164, 21);
             this.comboBox3.TabIndex = 79;
-            // 
-            // Договор
-            // 
-            this.Договор.HeaderText = "Договор";
-            this.Договор.Name = "Договор";
-            this.Договор.ReadOnly = true;
-            // 
-            // Дата
-            // 
-            this.Дата.HeaderText = "Дата заключения";
-            this.Дата.Name = "Дата";
             // 
             // empinfo
             // 

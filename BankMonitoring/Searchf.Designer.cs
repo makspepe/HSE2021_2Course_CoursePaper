@@ -34,6 +34,21 @@ namespace Bank
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Паспорт = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Фамилия = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Имя = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Отчество = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Дата_рождения = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Доход = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ИНН = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.СНИЛС = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Город = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Адрес = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Адрестек = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Телефон = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Телефр = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.дата = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,7 +65,6 @@ namespace Bank
             this.label8 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -63,11 +77,31 @@ namespace Bank
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.textBox15 = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.textBox16 = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.textBox17 = new System.Windows.Forms.TextBox();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Датар = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Должность = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Адресп = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Адрест = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Телефонл = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Телефонр = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Обновлено = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.Дог = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton1
@@ -117,12 +151,102 @@ namespace Bank
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 166);
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Паспорт,
+            this.Фамилия,
+            this.Имя,
+            this.Отчество,
+            this.Дата_рождения,
+            this.Доход,
+            this.ИНН,
+            this.СНИЛС,
+            this.Город,
+            this.Адрес,
+            this.Адрестек,
+            this.Телефон,
+            this.Телефр,
+            this.email,
+            this.дата});
+            this.dataGridView1.Location = new System.Drawing.Point(-2, 144);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1107, 384);
+            this.dataGridView1.Size = new System.Drawing.Size(1107, 470);
             this.dataGridView1.TabIndex = 4;
-            this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
+            // 
+            // Паспорт
+            // 
+            this.Паспорт.HeaderText = "Паспорт";
+            this.Паспорт.Name = "Паспорт";
+            // 
+            // Фамилия
+            // 
+            this.Фамилия.HeaderText = "Фамилия";
+            this.Фамилия.Name = "Фамилия";
+            // 
+            // Имя
+            // 
+            this.Имя.HeaderText = "Имя";
+            this.Имя.Name = "Имя";
+            // 
+            // Отчество
+            // 
+            this.Отчество.HeaderText = "Отчество";
+            this.Отчество.Name = "Отчество";
+            // 
+            // Дата_рождения
+            // 
+            this.Дата_рождения.HeaderText = "Дата рождения";
+            this.Дата_рождения.Name = "Дата_рождения";
+            // 
+            // Доход
+            // 
+            this.Доход.HeaderText = "Доход";
+            this.Доход.Name = "Доход";
+            // 
+            // ИНН
+            // 
+            this.ИНН.HeaderText = "ИНН";
+            this.ИНН.Name = "ИНН";
+            // 
+            // СНИЛС
+            // 
+            this.СНИЛС.HeaderText = "СНИЛС";
+            this.СНИЛС.Name = "СНИЛС";
+            // 
+            // Город
+            // 
+            this.Город.HeaderText = "Город";
+            this.Город.Name = "Город";
+            // 
+            // Адрес
+            // 
+            this.Адрес.HeaderText = "Адрес прописки";
+            this.Адрес.Name = "Адрес";
+            // 
+            // Адрестек
+            // 
+            this.Адрестек.HeaderText = "Текущий адрес";
+            this.Адрестек.Name = "Адрестек";
+            // 
+            // Телефон
+            // 
+            this.Телефон.HeaderText = "Телефон личный";
+            this.Телефон.Name = "Телефон";
+            // 
+            // Телефр
+            // 
+            this.Телефр.HeaderText = "Телефон рабочий";
+            this.Телефр.Name = "Телефр";
+            // 
+            // email
+            // 
+            this.email.HeaderText = "email";
+            this.email.Name = "email";
+            // 
+            // дата
+            // 
+            this.дата.HeaderText = "Дата обновления информации";
+            this.дата.Name = "дата";
             // 
             // button1
             // 
@@ -256,13 +380,6 @@ namespace Bank
             this.label9.TabIndex = 23;
             this.label9.Text = "Город";
             // 
-            // textBox8
-            // 
-            this.textBox8.Location = new System.Drawing.Point(632, 62);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(164, 20);
-            this.textBox8.TabIndex = 22;
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -346,7 +463,7 @@ namespace Bank
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(103, 124);
+            this.label16.Location = new System.Drawing.Point(799, 48);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(133, 13);
             this.label16.TabIndex = 37;
@@ -354,26 +471,10 @@ namespace Bank
             // 
             // textBox15
             // 
-            this.textBox15.Location = new System.Drawing.Point(106, 140);
+            this.textBox15.Location = new System.Drawing.Point(802, 63);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(164, 20);
             this.textBox15.TabIndex = 36;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(799, 46);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(72, 13);
-            this.label17.TabIndex = 35;
-            this.label17.Text = "Номер счета";
-            // 
-            // textBox16
-            // 
-            this.textBox16.Location = new System.Drawing.Point(802, 62);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(164, 20);
-            this.textBox16.TabIndex = 34;
             // 
             // label18
             // 
@@ -391,15 +492,153 @@ namespace Bank
             this.textBox17.Size = new System.Drawing.Size(164, 20);
             this.textBox17.TabIndex = 32;
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.Датар,
+            this.Должность,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.Адресп,
+            this.Адрест,
+            this.Телефонл,
+            this.Телефонр,
+            this.dataGridViewTextBoxColumn8,
+            this.Обновлено});
+            this.dataGridView2.Location = new System.Drawing.Point(-2, 144);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(1107, 470);
+            this.dataGridView2.TabIndex = 38;
+            this.dataGridView2.Visible = false;
+            this.dataGridView2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentDoubleClick);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Паспорт";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Фамилия";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "Имя";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "Отчество";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // Датар
+            // 
+            this.Датар.HeaderText = "Дата рождения";
+            this.Датар.Name = "Датар";
+            // 
+            // Должность
+            // 
+            this.Должность.HeaderText = "Должность";
+            this.Должность.Name = "Должность";
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "ИНН";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "СНИЛС";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "Город";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // Адресп
+            // 
+            this.Адресп.HeaderText = "Адрес прописки";
+            this.Адресп.Name = "Адресп";
+            // 
+            // Адрест
+            // 
+            this.Адрест.HeaderText = "Текущий адрес";
+            this.Адрест.Name = "Адрест";
+            // 
+            // Телефонл
+            // 
+            this.Телефонл.HeaderText = "Телефон личный";
+            this.Телефонл.Name = "Телефонл";
+            // 
+            // Телефонр
+            // 
+            this.Телефонр.HeaderText = "Телефон рабочий";
+            this.Телефонр.Name = "Телефонр";
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.HeaderText = "email";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            // 
+            // Обновлено
+            // 
+            this.Обновлено.HeaderText = "Дата обновления информации";
+            this.Обновлено.Name = "Обновлено";
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Дог});
+            this.dataGridView3.Location = new System.Drawing.Point(-2, 144);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.Size = new System.Drawing.Size(1107, 470);
+            this.dataGridView3.TabIndex = 39;
+            this.dataGridView3.Visible = false;
+            this.dataGridView3.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellDoubleClick);
+            // 
+            // Дог
+            // 
+            this.Дог.HeaderText = "Номер договора";
+            this.Дог.Name = "Дог";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(633, 62);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(163, 21);
+            this.comboBox1.TabIndex = 40;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(107, 61);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(163, 21);
+            this.comboBox2.TabIndex = 41;
+            // 
             // Поиск
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1107, 550);
+            this.ClientSize = new System.Drawing.Size(1107, 614);
+            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.dataGridView3);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.textBox15);
-            this.Controls.Add(this.label17);
-            this.Controls.Add(this.textBox16);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.textBox17);
             this.Controls.Add(this.label12);
@@ -411,7 +650,6 @@ namespace Bank
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox8);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.label11);
@@ -437,7 +675,11 @@ namespace Bank
             this.Name = "Поиск";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Поиск";
+            this.Load += new System.EventHandler(this.Поиск_Load);
+            this.VisibleChanged += new System.EventHandler(this.Поиск_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -466,7 +708,6 @@ namespace Bank
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label11;
@@ -479,9 +720,42 @@ namespace Bank
         private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox textBox17;
+        public System.Windows.Forms.DataGridView dataGridView2;
+        public System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Датар;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Должность;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Адресп;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Адрест;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Телефонл;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Телефонр;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Обновлено;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Дог;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Паспорт;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Фамилия;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Имя;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Отчество;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Дата_рождения;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Доход;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ИНН;
+        private System.Windows.Forms.DataGridViewTextBoxColumn СНИЛС;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Город;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Адрес;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Адрестек;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Телефон;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Телефр;
+        private System.Windows.Forms.DataGridViewTextBoxColumn email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn дата;
     }
 }
