@@ -12,8 +12,10 @@ using System.Data.SqlClient;
 
 namespace Bank
 {
+    
     public partial class empinfo : Form
     {
+        
         public empinfo()
         {
             InitializeComponent();
@@ -154,14 +156,71 @@ namespace Bank
         }
 
         // Сохранение
-        private void button6_Click(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e) 
         {
+            bool k = true;
+
+            string errdia = "Ошибки при вводе:\n";
+            //Проверки и парс штук в правильный вид
+            if (!Program.pasmask(textBox1.Text))
+            {
+                errdia += "Номера паспорта\n";
+                k = false;
+            }
+            if (!Program.notempty(textBox2.Text) || !Program.notempty(textBox3.Text) || !Program.notempty(textBox4.Text))
+            {
+                errdia += "ФИО\n";
+                k = false;
+
+            }
+            if (!Program.datemask(textBox5.Text) || !Program.datemask(textBox15.Text))
+            {
+                errdia += "Полей даты\n";
+                k = false;
+            }
+
+            if (!Program.innmask(textBox10.Text))
+            {
+                errdia += "ИНН\n";
+                k = false;
+            }
+
+            if (!Program.snilsmask(textBox9.Text))
+            {
+                errdia += "СНИЛС\n";
+                k = false;
+            }
+            if (!Program.emailmask(textBox17.Text))
+            {
+                errdia += "email\n";
+                k = false;
+            }
+            if (!Program.notempty(textBox7.Text) || !Program.notempty(textBox13.Text))
+            {
+                errdia += "Адресов\n";
+                k = false;
+
+            }
+            if (!Program.phonemask(textBox12.Text) || !Program.notempty(textBox11.Text))
+            {
+                errdia += "Номеров телефонов\n";
+                k = false;
+
+            }
+
+            if (!k)
+            {
+                MessageBox.Show(errdia);
+                return;
+            }
+            textBox2.Text = Program.FIO(textBox2.Text);
+            textBox3.Text = Program.FIO(textBox3.Text);
+            textBox4.Text = Program.FIO(textBox4.Text);
+
             if (button4.Enabled == true)  //редакт
             {
-                bool k = true;
                 var conn = new SqlConnection();
                 conn.ConnectionString = Program.str;
-
 
                 //Данные текущего пользователя
                 string emppas="0", inn="0", snils="0", login="0", password="0", logid="-1";
@@ -247,7 +306,7 @@ namespace Bank
                 conn.Open();
                 DateTime myDateTime1 = Convert.ToDateTime(textBox5.Text);
                 string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                DateTime myDateTime2 = DateTime.Now;
+                DateTime myDateTime2 = Convert.ToDateTime(textBox15.Text);
                 string sqlFormattedDate2 = myDateTime2.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 using (SqlCommand StrQuer = new SqlCommand
                         ("BEGIN TRANSACTION " +
@@ -298,7 +357,7 @@ namespace Bank
 
                     DateTime myDateTime3 = Convert.ToDateTime(textBox5.Text);
                     string sqlFormattedDate3 = myDateTime3.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                    DateTime myDateTime1 = DateTime.Now;
+                    DateTime myDateTime1 = Convert.ToDateTime(textBox15.Text);
                     string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
                     using (SqlCommand StrQuer = new SqlCommand("BEGIN TRANSACTION " +
@@ -548,7 +607,6 @@ namespace Bank
             }
             conn.Close();
             dataGridView1.Sort(dataGridView1.Columns[1], ListSortDirection.Ascending);
-
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e) //получаем id из клетки и переходим в форму договора
@@ -607,8 +665,6 @@ namespace Bank
 
             catch (Exception )
             { }
-
         }
-        
     }
 }

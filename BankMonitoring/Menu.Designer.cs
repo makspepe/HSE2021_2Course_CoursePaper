@@ -1,7 +1,7 @@
 ﻿
 namespace Bank
 {
-    partial class Меню
+    partial class Menu
     {
         /// <summary>
         /// Required designer variable.
@@ -161,12 +161,12 @@ namespace Bank
             this.searchb.UseVisualStyleBackColor = true;
             this.searchb.Click += new System.EventHandler(this.searchb_Click);
             // 
-            // Меню
+            // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(335, 244);
+            this.ClientSize = new System.Drawing.Size(335, 245);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -177,7 +177,7 @@ namespace Bank
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Меню";
+            this.Name = "Menu";
             this.Text = "Меню";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Меню_FormClosed);
             this.VisibleChanged += new System.EventHandler(this.Меню_VisibleChanged);

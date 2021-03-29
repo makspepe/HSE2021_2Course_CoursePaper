@@ -34,13 +34,14 @@ namespace Bank
                 dataGridView1.Rows.Clear();
                 List<string[]> data = new List<string[]>();
 
+
                 using (SqlCommand StrQuer = new SqlCommand($"SELECT * " +
                     $"FROM cli INNER JOIN city ON cli.city = city.Id " +
-                    $"WHERE cli.clipas LIKE '{textBox1.Text}%' AND fam LIKE '{textBox2.Text}%' AND cli.name LIKE '{textBox3.Text}%' " +
-                    $"AND sname LIKE '{textBox4.Text}%' AND birth LIKE '%{datereverse(textBox5.Text)}%' AND income LIKE '{textBox6.Text}%' " +
-                    $"AND inn LIKE '{textBox10.Text}%' AND snils LIKE '{textBox9.Text}%' AND cli.city LIKE '{citycode}%' " +
-                    $"AND updated LIKE '%{datereverse(textBox15.Text)}%' AND adr LIKE '{textBox7.Text}%' AND cadr LIKE '{textBox13.Text}%' " +
-                    $"AND phone LIKE '{textBox12.Text}%' AND jphone LIKE '{textBox11.Text}%' AND email LIKE '{textBox17.Text}%' ", conn))
+                    $"WHERE cli.clipas LIKE N'{textBox1.Text}%' AND cli.fam LIKE N'{textBox2.Text}%' AND cli.name LIKE N'{textBox3.Text}%' " +
+                    $"AND cli.sname LIKE N'{textBox4.Text}%' AND cli.birth LIKE N'%{datereverse(textBox5.Text)}%' AND cli.income LIKE N'{textBox6.Text}%' " +
+                    $"AND cli.inn LIKE N'{textBox10.Text}%' AND cli.snils LIKE N'{textBox9.Text}%' AND cli.city LIKE N'{citycode}%' " +
+                    $"AND cli.updated LIKE N'%{datereverse(textBox15.Text)}%' AND cli.adr LIKE N'{textBox7.Text}%' AND cli.cadr LIKE N'{textBox13.Text}%' " +
+                    $"AND cli.phone LIKE N'{textBox12.Text}%' AND cli.jphone LIKE N'{textBox11.Text}%' AND cli.email LIKE N'{textBox17.Text}%' ", conn))
                 { 
                     SqlDataReader dr = StrQuer.ExecuteReader();
                     using (dr)
@@ -55,7 +56,7 @@ namespace Bank
                             data[data.Count - 1][2] = dr[2].ToString(); //имя
                             data[data.Count - 1][3] = dr[3].ToString(); //от
                             data[data.Count - 1][4] = dr[4].ToString().Replace("0:00:00",""); //др
-                            data[data.Count - 1][5] = dr[5].ToString().Replace(",0000", ""); //доход
+                            data[data.Count - 1][5] = dr[5].ToString(); //доход
                             data[data.Count - 1][6] = dr[6].ToString(); //ИНН
                             data[data.Count - 1][7] = dr[7].ToString(); //снилс
                             data[data.Count - 1][8] = dr[17].ToString(); //Город
@@ -80,11 +81,11 @@ namespace Bank
 
                 using (SqlCommand StrQuer = new SqlCommand($"SELECT * " +
                     $"FROM emp INNER JOIN city ON emp.city = city.Id INNER JOIN job ON emp.job = job.Id " +
-                    $"WHERE emp.emppas LIKE '{textBox1.Text}%' AND fam LIKE '{textBox2.Text}%' AND emp.name LIKE '{textBox3.Text}%' " +
-                    $"AND sname LIKE '{textBox4.Text}%' AND birth LIKE '%{datereverse(textBox5.Text)}%' AND job.Id LIKE '{jobcode}%' " +
-                    $"AND inn LIKE '{textBox10.Text}%' AND snils LIKE '{textBox9.Text}%' AND emp.city LIKE '{citycode}%' " +
-                    $"AND updated LIKE '%{datereverse(textBox15.Text)}%' AND adr LIKE '{textBox7.Text}%' AND cadr LIKE '{textBox13.Text}%' " +
-                    $"AND phone LIKE '{textBox12.Text}%' AND jphone LIKE '{textBox11.Text}%' AND email LIKE '{textBox17.Text}%' ", conn))
+                    $"WHERE emp.emppas LIKE N'{textBox1.Text}%' AND fam LIKE N'{textBox2.Text}%' AND emp.name LIKE N'{textBox3.Text}%' " +
+                    $"AND sname LIKE N'{textBox4.Text}%' AND birth LIKE N'%{datereverse(textBox5.Text)}%' AND job.Id LIKE N'{jobcode}%' " +
+                    $"AND inn LIKE N'{textBox10.Text}%' AND snils LIKE N'{textBox9.Text}%' AND emp.city LIKE N'{citycode}%' " +
+                    $"AND updated LIKE N'%{datereverse(textBox15.Text)}%' AND adr LIKE N'{textBox7.Text}%' AND cadr LIKE N'{textBox13.Text}%' " +
+                    $"AND phone LIKE N'{textBox12.Text}%' AND jphone LIKE N'{textBox11.Text}%' AND email LIKE N'{textBox17.Text}%' ", conn))
                 {
                     SqlDataReader dr = StrQuer.ExecuteReader();
                     using (dr)
@@ -123,7 +124,7 @@ namespace Bank
 
                 using (SqlCommand StrQuer = new SqlCommand($"SELECT * " +
                     $"FROM contract " +
-                    $"WHERE Id LIKE '{textBox7.Text}%' ", conn))
+                    $"WHERE Id LIKE N'{textBox7.Text}%' ", conn))
                 {
                     SqlDataReader dr = StrQuer.ExecuteReader();
                     using (dr)
@@ -409,15 +410,16 @@ namespace Bank
             }
         }
 
-        private string datereverse(string s)
+        private string datereverse(string s) //TODO проверка дата ли это //trim whitespaces
         {
-            s.Trim();
-            if (s.Length > 0)
+            s= s.Trim();
+            if (Program.datemask(s))
             {
-                string[] sa = s.Split('.');
+                string[] sa = s.Split('.', '-');
                 s = $"{sa[2]}-{sa[1]}-{sa[0]}";
             }
             return s;
+
         }
     }
 }

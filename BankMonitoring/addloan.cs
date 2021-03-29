@@ -189,11 +189,41 @@ namespace Bank
         //сохранение
         private void button3_Click(object sender, EventArgs e)
         {
+            bool k = true;
+            string errdia = "Ошибки при вводе:\n";
+            if (!Program.digit(textBox1.Text) || !Program.digit(textBox2.Text) || !Program.digit(textBox8.Text))
+            {
+                errdia += "Номеров договоров\n";
+                k = false;
+            }
+            if (!Program.pasmask(textBox6.Text) || !Program.pasmask(textBox7.Text))
+            {
+                errdia += "Номеров паспорта\n";
+                k = false;
+            }
+            if (!Program.datemask(textBox11.Text) || !Program.datemask(textBox3.Text) || !Program.datemask(textBox5.Text))
+            {
+                errdia += "Полей даты\n";
+                k = false;
+            }
+            if (!Program.incmask(textBox12.Text))
+            {
+                errdia += "Суммы кредита\n";
+                k = false;
+            }
+            if (!k)
+            {
+                MessageBox.Show(errdia);
+                return;
+            }
+            textBox12.Text = Program.income(textBox12.Text);
+
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;
+
             if (edit.Enabled == true)  //редакт
             {
-                //Получение ном дог и вклада текущ договора
+                //Получение loanID, contract.Id 
                 string cardid = "-1", conid = "-1";
                 using (SqlCommand StrQuer = new SqlCommand("SELECT Id, contid " +
                     "FROM contloan " +
@@ -206,14 +236,14 @@ namespace Bank
                     {
                         while (dr.Read())
                         {  //вставка полей в textbox
-                            cardid = dr.GetInt32(0).ToString(); //ид карты
+                            cardid = dr.GetInt32(0).ToString(); //ид кредита
                             conid = dr.GetInt32(1).ToString(); //ид договора
                         }
                     }
                     conn.Close();
                 }
                 //проверка текущего номера договора и карты на повторение (кроме себя самого)
-                bool k = true; ;
+                k = true; ;
                 using (SqlCommand StrQuer = new SqlCommand("SELECT contloan.Id, contract.Id " +
                     "FROM contloan INNER JOIN contract ON contloan.contid = contract.Id " +
                     $"WHERE contloan.contid = '{textBox1.Text}' " +
@@ -390,7 +420,7 @@ namespace Bank
                 int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key;
                 using (SqlCommand StrQuer = new SqlCommand
                         (
-                        $"UPDATE contloan SET Id = N'{textBox1.Text}', contid = N'{textBox2.Text}', sum = N'{textBox12.Text.Replace(",0000", "")}', " +
+                        $"UPDATE contloan SET Id = N'{textBox1.Text}', contid = N'{textBox2.Text}', sum = N'{textBox12.Text}', " +
                         $"opens = N'{sqlFormattedDate11}', closes = N'{sqlFormattedDate3}', prloan = N'{prcode}', " +
                         $"contdate = '{sqlFormattedDate5}', clipas = N'{textBox6.Text}', emppas = N'{textBox7.Text}', accid = N'{textBox8.Text}' " +
                         $" WHERE (contid = '{textBox2.Text}');", conn))
@@ -405,7 +435,7 @@ namespace Bank
             else //добавляем
             {
                 textBox7.ReadOnly = true;
-                bool k = false;
+                k = false;
                 //нужна проверка на наличие паспорта клиента в бд, если нет - ошибка
                 using (SqlCommand StrQuer = new SqlCommand("SELECT clipas FROM cli " +
                   $"WHERE clipas = '{textBox6.Text}'", conn))
@@ -496,14 +526,13 @@ namespace Bank
                 string sqlFormattedDate5 = myDateTime5.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 string sqlFormattedDate11 = myDateTime11.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-
                 conn.Open();
                 int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key;
                 using (SqlCommand StrQuer = new SqlCommand
                         (
                         "BEGIN TRANSACTION " +
                         $"INSERT INTO contloan (Id, contid, sum, opens, closes, prloan, contdate, clipas,  emppas, accid) " +
-                        $"VALUES ('{textBox1.Text}', '{textBox2.Text}', '{textBox12.Text.Replace(", 0000", "")}', '{sqlFormattedDate11}', " +
+                        $"VALUES ('{textBox1.Text}', '{textBox2.Text}', '{textBox12.Text}', '{sqlFormattedDate11}', " +
                         $"'{sqlFormattedDate3}', '{prcode}', '{sqlFormattedDate5}', '{textBox6.Text}', '{textBox7.Text}', '{textBox8.Text}'); " +
                         $"INSERT INTO contract (Id) " +
                         $"VALUES ('{textBox2.Text}');" +
@@ -584,6 +613,31 @@ namespace Bank
             }
             textBox1.Text = (maxloc + 1).ToString();
             textBox2.Text = (maxc + 1).ToString();
+            textBox7.ReadOnly = true;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var conn = new SqlConnection();
+            conn.ConnectionString = Program.str;
+            int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key; //выбрать из программы данные
+            using (SqlCommand StrQuer = new SqlCommand("SELECT * " +
+                "FROM prloan " +
+                $"WHERE id = {prcode}", conn))
+            {
+                conn.Open();
+                SqlDataReader dr = StrQuer.ExecuteReader();
+                using (dr) //для проверки на регистр в логине/пароле
+                {
+                    while (dr.Read())
+                    {  //вставка полей в textbox
+                        textBox9.Text = dr.GetDecimal(2).ToString();  //min
+                        textBox10.Text = dr.GetDecimal(3).ToString(); //max
+                        textBox4.Text = dr.GetDouble(4).ToString(); //interest
+                    }
+                }
+                conn.Close();
+            }
 
 
         }

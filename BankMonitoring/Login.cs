@@ -99,7 +99,7 @@ namespace Bank
                 }
                     this.Hide();
                 //MessageBox.Show($"loginned as {textBox1.Text}!");
-                Меню tmp = new Меню();
+                Menu tmp = new Menu();
                 tmp.Show();
             }
             else

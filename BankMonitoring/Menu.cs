@@ -7,13 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Data.SqlClient;
 
 namespace Bank
 {
 
-    public partial class Меню : Form
+    public partial class Menu : Form
     {
-        public Меню()
+        public Menu()
         {
             InitializeComponent();
         }

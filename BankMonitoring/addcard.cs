@@ -177,6 +177,29 @@ namespace Bank
         //сохранение
         private void button3_Click(object sender, EventArgs e)
         {
+            bool k = true;
+            string errdia = "Ошибки при вводе:\n";
+            if (!Program.digit(textBox1.Text) || !Program.digit(textBox2.Text) || !Program.digit(textBox8.Text))
+            {
+                errdia += "Номеров договоров\n";
+                k = false;
+            }
+            if (!Program.pasmask(textBox6.Text) || !Program.pasmask(textBox7.Text))
+            {
+                errdia += "Номеров паспорта\n";
+                k = false;
+            }
+            if (!Program.datemask(textBox3.Text) || !Program.datemask(textBox5.Text))
+            {
+                errdia += "Полей даты\n";
+                k = false;
+            }
+            if (!k)
+            {
+                MessageBox.Show(errdia);
+                return;
+            }
+
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;
             if (edit.Enabled == true)  //редакт
@@ -202,7 +225,7 @@ namespace Bank
                     conn.Close();
                 }
                 //проверка текущего номера договора и карты на повторение (кроме себя самого)
-                bool k = true; ;
+                k = true; ;
                 using (SqlCommand StrQuer = new SqlCommand("SELECT contcard.Id, contract.Id " +
                     "FROM contcard INNER JOIN contract ON contcard.contid = contract.Id " +
                     $"WHERE contcard.contid = '{textBox1.Text}' " +
@@ -392,7 +415,7 @@ namespace Bank
             else //добавляем
             {
                 textBox7.ReadOnly = true;
-                bool k = false;
+                k = false;
                 //нужна проверка на наличие паспорта клиента в бд, если нет - ошибка
                 using (SqlCommand StrQuer = new SqlCommand("SELECT clipas FROM cli " +
                   $"WHERE clipas = '{textBox6.Text}'", conn))
@@ -560,6 +583,31 @@ namespace Bank
             }
             textBox1.Text = (maxloc + 1).ToString();
             textBox2.Text = (maxc + 1).ToString();
+            textBox7.ReadOnly = true;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var conn = new SqlConnection();
+            conn.ConnectionString = Program.str;
+            int prcode = ((KeyValuePair<int, string>)comboBox1.SelectedItem).Key; //выбрать из программы данные
+            using (SqlCommand StrQuer = new SqlCommand("SELECT * " +
+                "FROM prcard " +
+                $"WHERE id = {prcode}", conn))
+            {
+                conn.Open();
+                SqlDataReader dr = StrQuer.ExecuteReader();
+                using (dr) //для проверки на регистр в логине/пароле
+                {
+                    while (dr.Read())
+                    {  //вставка полей в textbox
+                        textBox9.Text = dr.GetDecimal(2).ToString();  //min
+                        textBox10.Text = dr.GetDecimal(3).ToString(); //max
+                    }
+                }
+                conn.Close();
+            }
+
         }
     }
 }

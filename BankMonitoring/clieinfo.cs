@@ -92,7 +92,7 @@ namespace Bank
                 conn.Open();
                 SqlDataReader dr = StrQuer.ExecuteReader();
 
-                using (dr) //для проверки на регистр в логине/пароле
+                using (dr)
                 {
                     while (dr.Read())
                     {  //вставка полей в textbox
@@ -110,7 +110,7 @@ namespace Bank
                         textBox12.Text = dr.GetString(11); //тел личный
                         textBox11.Text = dr.GetString(12); //тел рабоч
                         textBox17.Text = dr.GetString(13); //емейл
-                        comboBox2.SelectedIndex = comboBox2.FindStringExact(test2[dr.GetInt32(14)]);  //ид счета
+                        //comboBox2.SelectedIndex = comboBox2.FindStringExact(test2[dr.GetInt32(14)]);  //ид счета
                         textBox15.Text = dr.GetDateTime(15).Date.ToString("d"); //updated
                     }
                 }
@@ -215,7 +215,6 @@ namespace Bank
         //добавление
         public void button5_Click(object sender, EventArgs e)
         {
-            
             wipe();
             button4.Enabled = false;
             changeBut(1);
@@ -235,17 +234,11 @@ namespace Bank
                     }
             }
             textBox8.Text = maxid.ToString();
-
             textBox15.Text = DateTime.Now.ToShortDateString();
-            textBox15.ReadOnly = true;
-
-
             textBox8.Visible = true;
             comboBox2.Enabled = false;
             comboBox2.Visible = false;
             button2.PerformClick();
-
-
         }
 
         // Отмена
@@ -261,18 +254,80 @@ namespace Bank
                 button2.PerformClick();
             }
             ronly();
-
         }
 
         // Сохранение
         private void button6_Click(object sender, EventArgs e)
         {
+
+            bool k = true;
+
+            string errdia = "Ошибки при вводе:\n";
+            //Проверки и парс штук в правильный вид
+            if (!Program.pasmask(textBox1.Text))
+            {
+                errdia += "Номера паспорта\n";
+                k = false;
+            }
+            if (!Program.notempty(textBox2.Text) || !Program.notempty(textBox3.Text) || !Program.notempty(textBox4.Text))
+            {
+                errdia += "ФИО\n";
+                k = false;
+
+            }
+            if (!Program.datemask(textBox5.Text) || !Program.datemask(textBox15.Text))
+            {
+                errdia += "Полей даты\n";
+                k = false;
+            }
+            if (!Program.innmask(textBox10.Text))
+            {
+                errdia += "ИНН\n";
+                k = false;
+            }
+
+            if (!Program.snilsmask(textBox9.Text))
+            {
+                errdia += "СНИЛС\n";
+                k = false;
+            }
+            if (!Program.emailmask(textBox17.Text))
+            {
+                errdia += "email\n";
+                k = false;
+            }
+            if (!Program.notempty(textBox7.Text) || !Program.notempty(textBox13.Text))
+            {
+                errdia += "Адресов\n";
+                k = false;
+
+            }
+            if (!Program.phonemask(textBox12.Text) || !Program.notempty(textBox11.Text))
+            {
+                errdia += "Номеров телефонов\n";
+                k = false;
+
+            }
+
+            if (!Program.incmask(textBox6.Text))
+            {
+                errdia += "Дохода\n";
+                k = false;
+            }
+            if (!k)
+            {
+                MessageBox.Show(errdia);
+                return;
+            }
+            textBox2.Text = Program.FIO(textBox2.Text);
+            textBox3.Text = Program.FIO(textBox3.Text);
+            textBox4.Text = Program.FIO(textBox4.Text);
+            textBox6.Text = Program.income(textBox6.Text);
+
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;
             if (button4.Enabled == true)  //редакт
             {
-                bool k = true;
-
                 //Данные текущего клиента
                 string clipas = "0", inn = "0", snils = "0";
                 using (SqlCommand StrQuer = new SqlCommand($"SELECT clipas, inn, snils " +
@@ -340,21 +395,27 @@ namespace Bank
 
                 }
                 int citycode = ((KeyValuePair<int, string>)comboBox3.SelectedItem).Key;
-                string acccode = ((KeyValuePair<int, string>)comboBox2.SelectedItem).Key.ToString();
+                if (comboBox2.SelectedItem == null)
+                {
+                    MessageBox.Show("Выберите счет");
+                    return;
+                }
+                    string acccode = ((KeyValuePair<int, string>)comboBox2.SelectedItem).Key.ToString();
 
                 conn.Open();
                 DateTime myDateTime1 = Convert.ToDateTime(textBox5.Text);
                 string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
-                DateTime myDateTime2 = DateTime.Now;
+                DateTime myDateTime2 = Convert.ToDateTime(textBox15.Text);
                 string sqlFormattedDate2 = myDateTime2.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 using (SqlCommand StrQuer = new SqlCommand
                         ("BEGIN TRANSACTION " +
+                        $"UPDATE acc SET acc.clipas = '{textBox1.Text}' WHERE(((acc.clipas) = '{Program.curcpas}'));" +
                         $"UPDATE contcard SET contcard.clipas = '{textBox1.Text}' WHERE(((contcard.clipas) = '{Program.curcpas}'));" +
                         $"UPDATE contdepo SET contdepo.clipas = '{textBox1.Text}' WHERE(((contdepo.clipas) = '{Program.curcpas}'));" +
                         $"UPDATE contloan SET contloan.clipas = '{textBox1.Text}' WHERE(((contloan.clipas) = '{Program.curcpas}')); " +
                         $"UPDATE cli SET cli.clipas = N'{textBox1.Text}', cli.fam = N'{textBox2.Text}', cli.name = N'{textBox3.Text}', " +
                         $"cli.sname = N'{textBox4.Text}', cli.birth = '{sqlFormattedDate1}', " +
-                        $"cli.income = N'{textBox6.Text.Replace(",0000", "")}', cli.inn = '{textBox10.Text}', cli.snils = '{textBox9.Text}', cli.city = '{citycode}', " +
+                        $"cli.income = N'{textBox6.Text}', cli.inn = '{textBox10.Text}', cli.snils = '{textBox9.Text}', cli.city = '{citycode}', " +
                         $"cli.adr = N'{textBox7.Text}', cli.cadr = N'{textBox13.Text}', cli.phone = N'{textBox12.Text}', " +
                         $"cli.jphone = N'{textBox11.Text}', cli.email = N'{textBox17.Text}', cli.updated = '{sqlFormattedDate2}', cli.accnum = '{acccode}'" +
                         $" WHERE (cli.clipas = '{Program.curcpas}'); " +
@@ -379,9 +440,9 @@ namespace Bank
 
                     DateTime myDateTime1 = DateTime.Now;
                     DateTime myDateTime2 = DateTime.Now.AddYears(4);
-                    
+                    DateTime myDateTime4 = Convert.ToDateTime(textBox15.Text);
 
-                    string sqlFormattedDate1 = myDateTime1.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    string sqlFormattedDate1 = myDateTime4.ToString("yyyy-MM-dd HH:mm:ss.fff");
                     string sqlFormattedDate2 = myDateTime2.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
                     DateTime myDateTime3 = Convert.ToDateTime(textBox5.Text);
@@ -418,7 +479,6 @@ namespace Bank
             button2.PerformClick();
             comboBox2.Visible = true;
         }
-
 
         public bool checkcdata()  //проверка на повторение clipas, inn, snils
         {
@@ -591,7 +651,6 @@ namespace Bank
             tmp.textBox6.Text = textBox1.Text;
 
         }
-
         private void button7_Click(object sender, EventArgs e) //на вклад
         {
             adddepo tmp = new adddepo();
@@ -600,7 +659,6 @@ namespace Bank
             tmp.textBox6.Text = textBox1.Text;
 
         }
-
         private void button8_Click(object sender, EventArgs e) //на кредит
         {
             addloan tmp = new addloan();
