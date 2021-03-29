@@ -598,14 +598,15 @@ namespace Bank
             var conn = new SqlConnection();
             conn.ConnectionString = Program.str;
             conn.Open();
-            int maxloc = -1, maxc = -1;
+            int maxloc = 0, maxc = 0;
             using (SqlCommand StrQuer = new SqlCommand($"SELECT MAX(contid) FROM contdepo", conn))
             {
                 SqlDataReader dr = StrQuer.ExecuteReader();
                 using (dr)
                     while (dr.Read())
                     {
-                        maxloc = dr.GetInt32(0);
+                        if (!dr.IsDBNull(0))
+                            maxloc = dr.GetInt32(0);
                     }
             }
             using (SqlCommand StrQuer = new SqlCommand($"SELECT MAX(Id) FROM contract", conn))
@@ -614,7 +615,8 @@ namespace Bank
                 using (dr)
                     while (dr.Read())
                     {
-                        maxc = dr.GetInt32(0);
+                        if (!dr.IsDBNull(0))
+                            maxc = dr.GetInt32(0);
                     }
             }
             textBox1.Text = (maxloc + 1).ToString();

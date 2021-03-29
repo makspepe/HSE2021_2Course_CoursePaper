@@ -230,7 +230,8 @@ namespace Bank
                 using (dr)
                     while (dr.Read())
                     {
-                        maxid = 1 + dr.GetInt32(0);
+                        if (!dr.IsDBNull(0))
+                            maxid = 1 + dr.GetInt32(0);
                     }
             }
             textBox8.Text = maxid.ToString();

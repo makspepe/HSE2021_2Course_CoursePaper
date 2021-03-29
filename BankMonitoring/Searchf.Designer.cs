@@ -169,7 +169,7 @@ namespace Bank
             this.дата});
             this.dataGridView1.Location = new System.Drawing.Point(-2, 144);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1107, 470);
+            this.dataGridView1.Size = new System.Drawing.Size(1544, 470);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             // 
@@ -513,7 +513,7 @@ namespace Bank
             this.Обновлено});
             this.dataGridView2.Location = new System.Drawing.Point(-2, 144);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(1107, 470);
+            this.dataGridView2.Size = new System.Drawing.Size(1544, 470);
             this.dataGridView2.TabIndex = 38;
             this.dataGridView2.Visible = false;
             this.dataGridView2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentDoubleClick);
@@ -600,7 +600,7 @@ namespace Bank
             this.Дог});
             this.dataGridView3.Location = new System.Drawing.Point(-2, 144);
             this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.Size = new System.Drawing.Size(1107, 470);
+            this.dataGridView3.Size = new System.Drawing.Size(1544, 470);
             this.dataGridView3.TabIndex = 39;
             this.dataGridView3.Visible = false;
             this.dataGridView3.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellDoubleClick);
@@ -632,7 +632,7 @@ namespace Bank
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1107, 614);
+            this.ClientSize = new System.Drawing.Size(1544, 614);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.dataGridView3);
