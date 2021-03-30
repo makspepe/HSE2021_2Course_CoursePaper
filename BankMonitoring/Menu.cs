@@ -36,7 +36,7 @@ namespace Bank
 
             foreach (Form f in openForms)
             {
-                if (!(String.Equals(f.Name, "Login") || String.Equals(f.Name, "Меню")))
+                if (!(String.Equals(f.Name, "Login") || String.Equals(f.Name, "Menu")))
                     f.Close();
             }
 
